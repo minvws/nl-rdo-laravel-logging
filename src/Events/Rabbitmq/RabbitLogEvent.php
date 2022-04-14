@@ -1,0 +1,152 @@
+<?php
+
+declare(strict_types=1);
+
+namespace MinVWS\Logging\Laravel\Events\Rabbitmq;
+
+use MinVWS\Logging\Laravel\Events\Logging\RegistrationLogEvent;
+use MinVWS\Logging\Laravel\Loggers\LogEventInterface;
+use DateTimeInterface;
+use Illuminate\Support\Arr;
+use Nuwber\Events\Event\AbstractPublishableEvent;
+
+class RabbitLogEvent extends AbstractPublishableEvent
+{
+    private LogEventInterface $event;
+
+    public function __construct(LogEventInterface $event)
+    {
+        $this->event = $event;
+    }
+
+    public function publishEventKey(): string
+    {
+        return config('rabbitevents.prefix') . '.' . $this->getEventKey();
+    }
+
+    public function toPublish(): array
+    {
+        $logData = $this->event->getLogData();
+
+        return [
+            'routing_key' => $this->publishEventKey(),
+            'event_code' => Arr::get($logData, 'event_code'),
+            'action_code' => Arr::get($logData, 'action_code'),
+            'timestamp' => $this->getTimestamp(),
+            'result' => $this->getResult(),
+            'source' => $this->getSource(),
+            'user' => $this->getUser(),
+            'object' => $this->getObject(),
+        ];
+    }
+
+    private function getEventKey(): string
+    {
+        return $this->event->getEventKey();
+    }
+
+    private function getTimestamp(): int
+    {
+        $createdAt = Arr::get($this->event->getLogData(), 'created_at');
+        if ($createdAt instanceof DateTimeInterface) {
+            return $createdAt->getTimestamp();
+        }
+
+        return time();
+    }
+
+    private function getResult(): int
+    {
+        return Arr::get($this->event->getLogData(), 'failed', true) === false ? 1 : 0;
+    }
+
+    private function getSource(): string
+    {
+        return config('rabbitevents.prefix');
+    }
+
+    private function getUser(): ?array
+    {
+        $user = $this->getUserById($this->getUserId());
+        if (!$user) {
+            return null;
+        }
+
+        return [
+            'user_id' => $user->id,
+            'organisation_id' => $user->organisation_id,
+            'created_by' => $user->created_by,
+            'roles' => $user->roles,
+            'ip' => $this->getIpAddress(),
+        ];
+    }
+
+    private function getUserId(): ?int
+    {
+        return Arr::get($this->event->getLogData(), 'user_id');
+    }
+
+    private function getIpAddress(): ?string
+    {
+        return Arr::get($this->event->getPiiLogData(), 'request.ip_address') ?? app('request')->ip() ?? null;
+    }
+
+    private function getObject(): array
+    {
+        return match ($this->event::class) {
+            RegistrationLogEvent::class => $this->getRegistrationLogEventData(),
+            default => $this->getRequestFromLogData(),
+        };
+    }
+
+    private function getUserById(?int $userId): ?User
+    {
+        if ($userId === null) {
+            return null;
+        }
+
+        /** @var ?User $user */
+        $user = User::find($userId);
+        if (!$user) {
+            return null;
+        }
+
+        return $user;
+    }
+
+    private function getRegistrationCertificateTypeFromPiiLogData(): string
+    {
+        $request = Arr::get($this->event->getPiiLogData(), 'request');
+
+        if (isset($request['domestic_identifiers'])) {
+            return 'ctb';
+        }
+
+        if (isset($request['dcc_identifier'])) {
+            return 'dcc';
+        }
+
+        return '';
+    }
+
+    private function getRegistrationCertificateRequestTypeFromPiiLogData(): string
+    {
+        return Arr::get($this->event->getLogData(), 'request.request_type', '');
+    }
+
+    private function getRequestFromLogData(): array
+    {
+        $request = Arr::get($this->event->getLogData(), 'request', []);
+        unset($request['source']);
+
+        return $request;
+    }
+
+    private function getRegistrationLogEventData(): array
+    {
+        return [
+            'certificate_type' => $this->getRegistrationCertificateTypeFromPiiLogData(),
+            'request_type' => $this->getRegistrationCertificateRequestTypeFromPiiLogData(),
+        ];
+    }
+}
