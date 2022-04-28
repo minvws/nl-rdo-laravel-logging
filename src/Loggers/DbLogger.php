@@ -9,6 +9,7 @@ use JsonException;
 
 class DbLogger implements LoggerInterface
 {
+    // The eloquent model that will be created
     protected string $modelFqcn;
 
     public function __construct(string $modelFqcn)
@@ -28,6 +29,7 @@ class DbLogger implements LoggerInterface
 
         // Create a database record based for the configured model
         $model = new $this->modelFqcn();
+
         /** @var Model $model */
         $model::create($data);
     }

@@ -48,7 +48,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "MinVWS\\Logging\\Laravel\\LoggingServiceProvider"
+        "MinVWS\\Logging\\Laravel\\LogServiceProvider"
       ]
     }
   },
