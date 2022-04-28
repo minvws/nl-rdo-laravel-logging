@@ -14,7 +14,7 @@ class DbLogger implements LoggerInterface
 
     public function __construct(string $modelFqcn)
     {
-        $this->$modelFqcn = $modelFqcn;
+        $this->modelFqcn = $modelFqcn;
     }
 
     public function log(LogEventInterface $event): void
