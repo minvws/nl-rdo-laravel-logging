@@ -31,6 +31,9 @@ class RabbitLogger implements LoggerInterface
 
     public function __construct()
     {
+        if (!function_exists('publish')) {
+            throw new \Exception("RabbitMQ publish() function is not found.");
+        }
     }
 
     public function log(LogEventInterface $event): void

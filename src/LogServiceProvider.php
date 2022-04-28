@@ -18,7 +18,7 @@ class LogServiceProvider extends ServiceProvider
             $logger = new LogService([]);
 
             if (config('logging.dblog_enabled', false)) {
-                $modelFqcn = config('logging.auditlog_model', 'AuditLog');
+                $modelFqcn = config('logging.auditlog_model');
                 if (! is_a($modelFqcn, Model::class, true)) {
                     throw new \Exception("Model $modelFqcn does not inherit the eloquent model class");
                 }
