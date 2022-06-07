@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Loggers;
 
+use MinVWS\Logging\Laravel\Contracts\LoggableUser;
+
 interface LogEventInterface
 {
+    // User to log
+    public function getUser(): LoggableUser;
+
     // Get non-personal data to log
     public function getLogData(): array;
 

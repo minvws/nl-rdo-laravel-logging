@@ -8,7 +8,7 @@ use MinVWS\Logging\Laravel\Events\Logging\RegistrationLogEvent;
 use MinVWS\Logging\Laravel\Loggers\LogEventInterface;
 use DateTimeInterface;
 use Illuminate\Support\Arr;
-use Nuwber\Events\Event\AbstractPublishableEvent;
+use RabbitEvents\Publisher\Support\AbstractPublishableEvent;
 
 class RabbitLogEvent extends AbstractPublishableEvent
 {
@@ -67,23 +67,15 @@ class RabbitLogEvent extends AbstractPublishableEvent
 
     private function getUser(): ?array
     {
-        $user = $this->getUserById($this->getUserId());
-        if (!$user) {
-            return null;
-        }
+        $user = $this->event->getUser();
 
         return [
-            'user_id' => $user->id,
-            'organisation_id' => $user->organisation_id,
-            'created_by' => $user->created_by,
-            'roles' => $user->roles,
+            'user_id' => $user?->id ?? '',
+            'organisation_id' => $user?->organisation_id ?? '',
+            'created_by' => $user?->created_by ?? '',
+            'roles' => $user?->roles ?? [],
             'ip' => $this->getIpAddress(),
         ];
-    }
-
-    private function getUserId(): ?int
-    {
-        return Arr::get($this->event->getLogData(), 'user_id');
     }
 
     private function getIpAddress(): ?string
@@ -97,21 +89,6 @@ class RabbitLogEvent extends AbstractPublishableEvent
             RegistrationLogEvent::class => $this->getRegistrationLogEventData(),
             default => $this->getRequestFromLogData(),
         };
-    }
-
-    private function getUserById(?int $userId): ?User
-    {
-        if ($userId === null) {
-            return null;
-        }
-
-        /** @var ?User $user */
-        $user = User::find($userId);
-        if (!$user) {
-            return null;
-        }
-
-        return $user;
     }
 
     private function getRegistrationCertificateTypeFromPiiLogData(): string
