@@ -42,7 +42,6 @@ abstract class GeneralLogEvent implements LogEventInterface
     {
         return [
             'user_id' => $this->actor?->id,
-            'target_user_id' => $this->target?->id,
             'request' => $this->data,
             'created_at' => now(),
             'event_code' => $this->eventCode,
