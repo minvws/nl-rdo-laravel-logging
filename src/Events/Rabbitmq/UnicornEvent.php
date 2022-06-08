@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events\Rabbitmq;
 
-use Nuwber\Events\Event\AbstractPublishableEvent;
+use RabbitEvents\Publisher\Support\AbstractPublishableEvent;
 
 class UnicornEvent extends AbstractPublishableEvent
 {
