@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Loggers;
 
+use MinVWS\Logging\Laravel\Contracts\LoggableUser;
+
 interface LogEventInterface
 {
     // Get non-personal data to log
