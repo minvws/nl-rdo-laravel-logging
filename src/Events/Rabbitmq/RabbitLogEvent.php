@@ -28,9 +28,6 @@ class RabbitLogEvent extends AbstractPublishableEvent
     {
         $logData = $this->event->getLogData();
 
-        // Don't publish user directly
-        unset($logData['user']);
-
         return [
             'routing_key' => $this->publishEventKey(),
             'event_code' => Arr::get($logData, 'event_code'),
@@ -38,7 +35,7 @@ class RabbitLogEvent extends AbstractPublishableEvent
             'timestamp' => $this->getTimestamp(),
             'result' => $this->getResult(),
             'source' => $this->getSource(),
-            'user' => $this->getUser(),
+            'user' => $this->getActorUserData(),
             'object' => $this->getObject(),
         ];
     }
@@ -68,10 +65,9 @@ class RabbitLogEvent extends AbstractPublishableEvent
         return config('rabbitevents.prefix');
     }
 
-    private function getUser(): ?array
+    private function getActorUserData(): ?array
     {
-        $logData = $this->event->getLogData();
-        $user = $logData['user'] ?? null;
+        $user = $this->event->getActor();
 
         return [
             'user_id' => $user?->id ?? '',

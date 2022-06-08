@@ -22,7 +22,9 @@ abstract class GeneralLogEvent implements LogEventInterface
     public const EVENT_KEY = 'log';
 
     public function __construct(
-        public ?LoggableUser $user,
+        public ?LoggableUser $actor,
+        public ?LoggableUser $target,
+
         public array $data = [],
         public array $piiData = [],
         public string $eventCode = '',
@@ -39,7 +41,7 @@ abstract class GeneralLogEvent implements LogEventInterface
     public function getLogData(): array
     {
         return [
-            'user_id' => $this->user?->id,
+            'user_id' => $this->actor?->id,
             'request' => $this->data,
             'created_at' => now(),
             'event_code' => $this->eventCode,
@@ -57,14 +59,14 @@ abstract class GeneralLogEvent implements LogEventInterface
             $httpRequest = Request::capture();
 
             $data['http_request'] = $httpRequest->request->all();
-            $data['name'] = $this->user?->name;
-            $data['region_code'] = $this->user?->ggd_region;
-            $data['roles'] = $this->user?->roles;
+            $data['name'] = $this->actor?->name;
+            $data['region_code'] = $this->actor?->ggd_region;
+            $data['roles'] = $this->actor?->roles;
         }
 
         return [
             'request' => $data,
-            'email' => $this->user?->email,
+            'email' => $this->actor?->email,
         ];
     }
 
@@ -88,5 +90,15 @@ abstract class GeneralLogEvent implements LogEventInterface
     public function getEventKey(): string
     {
         return static::EVENT_KEY;
+    }
+
+    public function getActor(): ?LoggableUser
+    {
+        return $this->actor;
+    }
+
+    public function getTargetUser(): ?LoggableUser
+    {
+        return $this->target;
     }
 }

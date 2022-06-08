@@ -12,7 +12,8 @@ class AmpUploadEvent extends GeneralLogEvent
     public const EVENT_KEY = 'amp_upload';
 
     public function __construct(
-        public ?LoggableUser $user,
+        public ?LoggableUser $actor,
+        public ?LoggableUser $target,
         public array $data = [],
         public array $piiData = [],
         public string $actionCode = '',
@@ -20,6 +21,6 @@ class AmpUploadEvent extends GeneralLogEvent
         public bool $failed = false,
         public string $source = '',
     ) {
-        parent::__construct($user, $data, $piiData, self::EVENT_CODE, $actionCode, $allowedAdminView, $failed, $source);
+        parent::__construct($actor, $target, $data, $piiData, self::EVENT_CODE, $actionCode, $allowedAdminView, $failed, $source);
     }
 }
