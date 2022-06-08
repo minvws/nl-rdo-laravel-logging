@@ -28,6 +28,9 @@ class RabbitLogEvent extends AbstractPublishableEvent
     {
         $logData = $this->event->getLogData();
 
+        // Don't publish user directly
+        unset($logData['user']);
+
         return [
             'routing_key' => $this->publishEventKey(),
             'event_code' => Arr::get($logData, 'event_code'),
@@ -67,7 +70,8 @@ class RabbitLogEvent extends AbstractPublishableEvent
 
     private function getUser(): ?array
     {
-        $user = $this->event->getUser();
+        $logData = $this->event->getLogData();
+        $user = $logData['user'] ?? null;
 
         return [
             'user_id' => $user?->id ?? '',

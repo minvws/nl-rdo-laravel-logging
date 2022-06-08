@@ -8,9 +8,6 @@ use MinVWS\Logging\Laravel\Contracts\LoggableUser;
 
 interface LogEventInterface
 {
-    // User to log
-    public function getUser(): LoggableUser;
-
     // Get non-personal data to log
     public function getLogData(): array;
 
