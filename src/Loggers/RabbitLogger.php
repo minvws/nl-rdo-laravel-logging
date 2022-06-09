@@ -7,6 +7,7 @@ namespace MinVWS\Logging\Laravel\Loggers;
 use MinVWS\Logging\Laravel\Events\Logging\AccountChangeLogEvent;
 use MinVWS\Logging\Laravel\Events\Logging\ActivateAccountLogEvent;
 use MinVWS\Logging\Laravel\Events\Logging\AdminPasswordResetLogEvent;
+use MinVWS\Logging\Laravel\Events\Logging\DeclarationLogEvent;
 use MinVWS\Logging\Laravel\Events\Logging\RegistrationLogEvent;
 use MinVWS\Logging\Laravel\Events\Logging\ResetCredentialsLogEvent;
 use MinVWS\Logging\Laravel\Events\Logging\UserCreatedLogEvent;
