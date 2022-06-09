@@ -22,6 +22,7 @@ class RabbitLogger implements LoggerInterface
         ActivateAccountLogEvent::class,
         AdminPasswordResetLogEvent::class,
         RegistrationLogEvent::class,
+        DeclarationLogEvent::class,
         UserCreatedLogEvent::class,
         ResetCredentialsLogEvent::class,
         UserLoginLogEvent::class,
