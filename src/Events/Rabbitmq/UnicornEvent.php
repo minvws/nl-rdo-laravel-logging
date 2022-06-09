@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Events\Rabbitmq;
+namespace MinVWS\Logging\Laravel\Events\Rabbitmq;
 
 use RabbitEvents\Publisher\Support\AbstractPublishableEvent;
 
