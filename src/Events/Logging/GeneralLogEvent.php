@@ -69,7 +69,7 @@ abstract class GeneralLogEvent implements LogEventInterface
             # Remove private fields from the request data, if found
             foreach (self::PRIVATE_FIELDS as $field) {
                 if (isset($data['http_request'][$field])) {
-                    unset($data['http_request'][$field]);
+                    $data['http_request'][$field] = "***";
                 }
             }
         }
