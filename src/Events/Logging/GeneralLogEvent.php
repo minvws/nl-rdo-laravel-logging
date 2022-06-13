@@ -21,6 +21,9 @@ abstract class GeneralLogEvent implements LogEventInterface
 
     public const EVENT_KEY = 'log';
 
+    # Fields which will be removed from the request data
+    public const PRIVATE_FIELDS = [ "_token", "token", "code", "password" ];
+
     public function __construct(
         public ?LoggableUser $actor,
         public ?LoggableUser $target,
@@ -62,6 +65,13 @@ abstract class GeneralLogEvent implements LogEventInterface
             $data['name'] = $this->actor?->name;
             $data['region_code'] = $this->actor?->ggd_region;
             $data['roles'] = $this->actor?->roles;
+
+            # Remove private fields from the request data, if found
+            foreach (self::PRIVATE_FIELDS as $field) {
+                if (isset($data['http_request'][$field])) {
+                    $data['http_request'][$field] = "***";
+                }
+            }
         }
 
         return [
