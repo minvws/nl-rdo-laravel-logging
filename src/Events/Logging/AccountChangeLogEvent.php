@@ -11,6 +11,17 @@ class AccountChangeLogEvent extends GeneralLogEvent
     public const EVENT_CODE = '090001';
     public const EVENT_KEY = 'account_change';
 
+    public const EVENTCODE_USERDATA = '900101';
+    public const EVENTCODE_TEMP = '900102';
+    public const EVENTCODE_TIMESLOT = '900103';
+    public const EVENTCODE_ACTIVE = '900104';
+    public const EVENTCODE_RESET = '900105';
+
+    public const EVENTCODE_KVTB_USERDATA = '900201';
+    public const EVENTCODE_KVTB_ROLES = '900202';
+    public const EVENTCODE_KVTB_RESET = '900203';
+
+
     public function __construct(
         public ?LoggableUser $actor,
         public ?LoggableUser $target,
@@ -20,7 +31,8 @@ class AccountChangeLogEvent extends GeneralLogEvent
         public bool $allowedAdminView = false,
         public bool $failed = false,
         public string $source = '',
+        public $eventCode = SELF::EVENTCODE,
     ) {
-        parent::__construct($actor, $target, $data, $piiData, self::EVENT_CODE, $actionCode, $allowedAdminView, $failed, $source);
+        parent::__construct($actor, $target, $data, $piiData, $eventCode, $actionCode, $allowedAdminView, $failed, $source);
     }
 }
