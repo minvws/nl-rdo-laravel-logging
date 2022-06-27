@@ -19,6 +19,7 @@ abstract class GeneralLogEvent implements LogEventInterface
     public const SOURCE_KVTB = 'kvtb';
     public const SOURCE_INGE3 = 'inge3';
 
+    public const EVENT_CODE = '0000000';
     public const EVENT_KEY = 'log';
 
     # Fields which will be removed from the request data
@@ -27,11 +28,10 @@ abstract class GeneralLogEvent implements LogEventInterface
     public function __construct(
         public ?LoggableUser $actor,
         public ?LoggableUser $target,
-
         public array $data = [],
         public array $piiData = [],
         public string $eventCode = '',
-        public string $actionCode = '',
+        public string $actionCode = self::EVENT_CODE,
         public bool $allowedAdminView = false,
         public bool $failed = false,
         public string $source = '',
@@ -41,6 +41,9 @@ abstract class GeneralLogEvent implements LogEventInterface
         }
     }
 
+    /**
+     * @psalm-suppress NoInterfaceProperties
+     */
     public function getLogData(): array
     {
         return [
@@ -54,6 +57,9 @@ abstract class GeneralLogEvent implements LogEventInterface
         ];
     }
 
+    /**
+     * @psalm-suppress NoInterfaceProperties
+     */
     public function getPiiLogData(): array
     {
         $data = $this->piiData;
@@ -102,6 +108,11 @@ abstract class GeneralLogEvent implements LogEventInterface
         return static::EVENT_KEY;
     }
 
+    public function getEventCode(): string
+    {
+        return static::EVENT_CODE;
+    }
+
     public function getActor(): ?LoggableUser
     {
         return $this->actor;
@@ -110,5 +121,15 @@ abstract class GeneralLogEvent implements LogEventInterface
     public function getTargetUser(): ?LoggableUser
     {
         return $this->target;
+    }
+
+    public function setLogData(array $data): void
+    {
+        $this->data = $data;
+    }
+
+    public function setPiiLogData(array $data): void
+    {
+        $this->piiData = $data;
     }
 }

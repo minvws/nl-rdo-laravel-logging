@@ -12,7 +12,9 @@ class SysLogger implements LoggerInterface
     public function __construct(protected bool $encrypt, protected string $pubKey, protected string $privKey)
     {
         if ($this->encrypt && !function_exists('sodium_crypto_box')) {
-            throw new \Exception("libsodium cound not found. Please install libsodium or do not use encryption in the syslogger");
+            throw new \Exception(
+                "libsodium cound not found. Please install libsodium or do not use encryption in the syslogger"
+            );
         }
     }
 

@@ -55,10 +55,10 @@
   },
   "scripts": {
     "test": [
+        "vendor/bin/phpcs",
         "vendor/bin/phpunit",
         "vendor/bin/phpstan analyse",
-        "vendor/bin/psalm",
-        "vendor/bin/phpcs"
+        "vendor/bin/psalm"
     ]
   }
 }
