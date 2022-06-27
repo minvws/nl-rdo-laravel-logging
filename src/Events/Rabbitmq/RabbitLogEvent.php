@@ -65,7 +65,10 @@ class RabbitLogEvent extends AbstractPublishableEvent
         return config('rabbitevents.prefix');
     }
 
-    private function getActorUserData(): ?array
+    /**
+     * @psalm-suppress NoInterfaceProperties
+     */
+    private function getActorUserData(): array
     {
         $user = $this->event->getActor();
 

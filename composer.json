@@ -25,8 +25,8 @@
   "require-dev": {
     "orchestra/testbench": "^6.0",
     "phpunit/phpunit": "^9.5",
-    "vimeo/psalm": "^4.4",
-    "phpstan/phpstan": "^0.12.80",
+    "vimeo/psalm": "^4.23",
+    "phpstan/phpstan": "^1.7",
     "squizlabs/php_codesniffer": "^3.6",
     "mockery/mockery": "^1.4.3"
   },
@@ -55,10 +55,10 @@
   },
   "scripts": {
     "test": [
+        "vendor/bin/phpcs",
         "vendor/bin/phpunit",
         "vendor/bin/phpstan analyse",
-        "vendor/bin/psalm",
-        "vendor/bin/phpcs"
+        "vendor/bin/psalm"
     ]
   }
 }

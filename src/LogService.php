@@ -19,7 +19,7 @@ class LogService
     /**
      * Adds an extra logger adapter to the service. Does not check if the same logger is already present.
      */
-    public function addLogger(LoggerInterface $logger)
+    public function addLogger(LoggerInterface $logger): void
     {
         $this->loggers[] = $logger;
     }

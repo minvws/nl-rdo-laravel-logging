@@ -31,8 +31,18 @@ class AccountChangeLogEvent extends GeneralLogEvent
         public bool $allowedAdminView = false,
         public bool $failed = false,
         public string $source = '',
-        public string $eventCode = self::EVENTCODE,
+        public string $eventCode = self::EVENT_CODE,
     ) {
-        parent::__construct($actor, $target, $data, $piiData, $eventCode, $actionCode, $allowedAdminView, $failed, $source);
+        parent::__construct(
+            $actor,
+            $target,
+            $data,
+            $piiData,
+            $eventCode,
+            $actionCode,
+            $allowedAdminView,
+            $failed,
+            $source
+        );
     }
 }

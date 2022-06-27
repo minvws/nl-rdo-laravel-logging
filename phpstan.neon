@@ -5,3 +5,5 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
     reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#^Access to an undefined property MinVWS\\Logging\\Laravel\\Contracts\\LoggableUser::.+.$#'
