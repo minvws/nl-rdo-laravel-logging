@@ -12,7 +12,7 @@ class AccountChangeLogEvent extends GeneralLogEvent
     public const EVENT_KEY = 'account_change';
 
     public const EVENTCODE_USERDATA = '900101';
-    public const EVENTCODE_TEMP = '900102';
+    public const EVENTCODE_ROLES = '900102';
     public const EVENTCODE_TIMESLOT = '900103';
     public const EVENTCODE_ACTIVE = '900104';
     public const EVENTCODE_RESET = '900105';
