@@ -12,6 +12,7 @@ use MinVWS\Logging\Laravel\Events\Logging\RegistrationLogEvent;
 use MinVWS\Logging\Laravel\Events\Logging\ResetCredentialsLogEvent;
 use MinVWS\Logging\Laravel\Events\Logging\UserCreatedLogEvent;
 use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
+use MinVWS\Logging\Laravel\Events\Logging\UserLoginTwoFactorFailedEvent;
 use MinVWS\Logging\Laravel\Events\Logging\UserLogoutLogEvent;
 use MinVWS\Logging\Laravel\Events\Logging\VerificationCodeDisabledLogEvent;
 use MinVWS\Logging\Laravel\Events\Rabbitmq\RabbitLogEvent;
@@ -27,6 +28,7 @@ class RabbitLogger implements LoggerInterface
         UserCreatedLogEvent::class,
         ResetCredentialsLogEvent::class,
         UserLoginLogEvent::class,
+        UserLoginTwoFactorFailedEvent::class,
         UserLogoutLogEvent::class,
         VerificationCodeDisabledLogEvent::class,
     ];
