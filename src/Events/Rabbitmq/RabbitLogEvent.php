@@ -74,6 +74,7 @@ class RabbitLogEvent extends AbstractPublishableEvent
 
         return [
             'user_id' => $user?->id ?? '',
+            'uzi_number' => $user?->uzi_number ?? '',
             'organisation_id' => $user?->organisation_id ?? '',
             'created_by' => $user?->created_by ?? '',
             'roles' => $user?->roles ?? [],
