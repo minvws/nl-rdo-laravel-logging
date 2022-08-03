@@ -13,7 +13,7 @@ class DeclarationLogEvent extends GeneralLogEvent
 
     public function __construct(
         public ?LoggableUser $actor,
-        public ?LoggableUser $target,
+        public ?LoggableUser $target = null,
         public array $data = [],
         public array $piiData = [],
         public string $actionCode = '',
