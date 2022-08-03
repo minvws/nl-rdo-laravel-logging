@@ -35,6 +35,7 @@ abstract class GeneralLogEvent implements LogEventInterface
         public bool $allowedAdminView = false,
         public bool $failed = false,
         public string $source = '',
+        public ?string $failedReason = null,
     ) {
         if (!empty($this->source)) {
             $this->data['source'] = $this->source;
@@ -54,6 +55,7 @@ abstract class GeneralLogEvent implements LogEventInterface
             'action_code' => $this->actionCode[0],
             'allowed_admin_view' => $this->allowedAdminView,
             'failed' => $this->failed,
+            'failed_reason' => $this->failedReason,
         ];
     }
 
