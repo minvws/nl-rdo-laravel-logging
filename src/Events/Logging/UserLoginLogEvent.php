@@ -12,11 +12,11 @@ class UserLoginLogEvent extends GeneralLogEvent
     public const EVENT_KEY = 'user_login';
 
     public function __construct(
-        public ?LoggableUser $actor,
-        public ?LoggableUser $target,
+        public ?LoggableUser $actor = null,
+        public ?LoggableUser $target = null,
         public array $data = [],
         public array $piiData = [],
-        public string $actionCode = '',
+        public string $actionCode = GeneralLogEvent::AC_EXECUTE,
         public bool $allowedAdminView = false,
         public bool $failed = false,
         public string $source = '',

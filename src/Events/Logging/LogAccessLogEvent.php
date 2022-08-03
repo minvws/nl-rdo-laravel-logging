@@ -13,10 +13,10 @@ class LogAccessLogEvent extends GeneralLogEvent
 
     public function __construct(
         public ?LoggableUser $actor,
-        public ?LoggableUser $target,
+        public ?LoggableUser $target = null,
         public array $data = [],
         public array $piiData = [],
-        public string $actionCode = '',
+        public string $actionCode = GeneralLogEvent::AC_READ,
         public bool $allowedAdminView = false,
         public bool $failed = false,
         public string $source = '',

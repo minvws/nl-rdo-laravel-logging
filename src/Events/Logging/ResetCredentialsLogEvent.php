@@ -16,7 +16,7 @@ class ResetCredentialsLogEvent extends GeneralLogEvent
         public ?LoggableUser $target,
         public array $data = [],
         public array $piiData = [],
-        public string $actionCode = '',
+        public string $actionCode = GeneralLogEvent::AC_UPDATE,
         public bool $allowedAdminView = false,
         public bool $failed = false,
         public string $source = '',
