@@ -28,7 +28,7 @@ class RabbitLogEvent extends AbstractPublishableEvent
     {
         $logData = $this->event->getLogData();
 
-        return [
+        $publish = [
             'routing_key' => $this->publishEventKey(),
             'event_code' => Arr::get($logData, 'event_code'),
             'action_code' => Arr::get($logData, 'action_code'),
@@ -38,6 +38,13 @@ class RabbitLogEvent extends AbstractPublishableEvent
             'user' => $this->getActorUserData(),
             'object' => $this->getObject(),
         ];
+
+        $failedReason = Arr::get($logData, 'failed_reason');
+        if (!empty($failedReason)) {
+            $publish['failed_reason'] = $failedReason;
+        }
+
+        return $publish;
     }
 
     private function getEventKey(): string

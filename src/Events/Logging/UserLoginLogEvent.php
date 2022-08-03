@@ -20,6 +20,7 @@ class UserLoginLogEvent extends GeneralLogEvent
         public bool $allowedAdminView = false,
         public bool $failed = false,
         public string $source = '',
+        public ?string $failedReason = null,
     ) {
         parent::__construct(
             $actor,
@@ -30,7 +31,8 @@ class UserLoginLogEvent extends GeneralLogEvent
             $actionCode,
             $allowedAdminView,
             $failed,
-            $source
+            $source,
+            $failedReason,
         );
     }
 }

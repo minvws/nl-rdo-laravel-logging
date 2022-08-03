@@ -60,5 +60,10 @@
         "vendor/bin/phpstan analyse",
         "vendor/bin/psalm"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
   }
 }
