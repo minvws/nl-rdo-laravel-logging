@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Events\Rabbitmq;
 
-use MinVWS\Logging\Laravel\Events\Logging\RegistrationLogEvent;
+use MinVWS\Logging\Laravel\Events\Logging\DeclarationLogEvent;
 use MinVWS\Logging\Laravel\Loggers\LogEventInterface;
 use DateTimeInterface;
 use Illuminate\Support\Arr;
@@ -97,12 +97,12 @@ class RabbitLogEvent extends AbstractPublishableEvent
     private function getObject(): array
     {
         return match ($this->event::class) {
-            RegistrationLogEvent::class => $this->getRegistrationLogEventData(),
+            DeclarationLogEvent::class => $this->getDeclarationLogEventData(),
             default => $this->getRequestFromLogData(),
         };
     }
 
-    private function getRegistrationCertificateTypeFromPiiLogData(): string
+    private function getDeclarationCertificateTypeFromPiiLogData(): string
     {
         $request = Arr::get($this->event->getPiiLogData(), 'request');
 
@@ -117,11 +117,6 @@ class RabbitLogEvent extends AbstractPublishableEvent
         return '';
     }
 
-    private function getRegistrationCertificateRequestTypeFromPiiLogData(): string
-    {
-        return Arr::get($this->event->getLogData(), 'request.request_type', '');
-    }
-
     private function getRequestFromLogData(): array
     {
         $request = Arr::get($this->event->getLogData(), 'request', []);
@@ -130,11 +125,11 @@ class RabbitLogEvent extends AbstractPublishableEvent
         return $request;
     }
 
-    private function getRegistrationLogEventData(): array
+    private function getDeclarationLogEventData(): array
     {
         return [
-            'certificate_type' => $this->getRegistrationCertificateTypeFromPiiLogData(),
-            'request_type' => $this->getRegistrationCertificateRequestTypeFromPiiLogData(),
+            'certificate_type' => $this->getDeclarationCertificateTypeFromPiiLogData(),
+            'request_type' => Arr::get($this->event->getLogData(), 'request.request_type', ''),
         ];
     }
 }
