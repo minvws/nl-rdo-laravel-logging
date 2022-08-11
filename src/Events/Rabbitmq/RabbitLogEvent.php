@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Events\Rabbitmq;
 
-use MinVWS\Logging\Laravel\Events\Logging\DeclarationLogEvent;
 use MinVWS\Logging\Laravel\Loggers\LogEventInterface;
 use DateTimeInterface;
 use Illuminate\Support\Arr;
@@ -94,27 +93,16 @@ class RabbitLogEvent extends AbstractPublishableEvent
         return Arr::get($this->event->getPiiLogData(), 'request.ip_address') ?? app('request')->ip() ?? null;
     }
 
+    /**
+     * Here you can define custom mappings for the object field based on the event.
+     * For example: DeclarationLogEvent::class => $this->specificData(),
+     * @return array
+     */
     private function getObject(): array
     {
         return match ($this->event::class) {
-            DeclarationLogEvent::class => $this->getDeclarationLogEventData(),
             default => $this->getRequestFromLogData(),
         };
-    }
-
-    private function getDeclarationCertificateTypeFromPiiLogData(): string
-    {
-        $request = Arr::get($this->event->getPiiLogData(), 'request');
-
-        if (isset($request['domestic_identifiers'])) {
-            return 'ctb';
-        }
-
-        if (isset($request['dcc_identifier'])) {
-            return 'dcc';
-        }
-
-        return '';
     }
 
     private function getRequestFromLogData(): array
@@ -123,13 +111,5 @@ class RabbitLogEvent extends AbstractPublishableEvent
         unset($request['source']);
 
         return $request;
-    }
-
-    private function getDeclarationLogEventData(): array
-    {
-        return [
-            'certificate_type' => $this->getDeclarationCertificateTypeFromPiiLogData(),
-            'request_type' => Arr::get($this->event->getLogData(), 'request.request_type', ''),
-        ];
     }
 }
