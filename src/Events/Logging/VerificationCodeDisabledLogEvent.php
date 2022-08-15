@@ -16,7 +16,7 @@ class VerificationCodeDisabledLogEvent extends GeneralLogEvent
         public ?LoggableUser $target,
         public array $data = [],
         public array $piiData = [],
-        public string $actionCode = '',
+        public string $actionCode = self::AC_UPDATE,
         public bool $allowedAdminView = false,
         public bool $failed = false,
         public string $source = '',
