@@ -16,7 +16,7 @@ class AmpUploadEvent extends GeneralLogEvent
         public ?LoggableUser $target,
         public array $data = [],
         public array $piiData = [],
-        public string $actionCode = self::AC_EXECUTE,
+        public string $actionCode = self::AC_CREATE,
         public bool $allowedAdminView = false,
         public bool $failed = false,
         public string $source = '',
