@@ -37,6 +37,8 @@ class LogServiceProvider extends ServiceProvider
             if (config('logging.rabbitmq_enabled', false)) {
                 $logger->addLogger(new RabbitLogger(
                     config('logging.rabbitmq_additional_allowed_events', []),
+                    config('rabbitevents.prefix', config('app.name', 'laravel')),
+                    config('logging.rabbitmq_log_pii', false),
                 ));
             }
 

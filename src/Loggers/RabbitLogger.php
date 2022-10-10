@@ -33,18 +33,23 @@ class RabbitLogger implements LoggerInterface
         VerificationCodeDisabledLogEvent::class,
     ];
 
-    public function __construct(array $additionalAllowedEvents = [])
+    protected string $prefix;
+    protected bool $logPii = false;
+
+    public function __construct(array $additionalAllowedEvents = [], string $prefix = "", bool $logPii = false)
     {
         if (!function_exists('publish')) {
             throw new \Exception("RabbitMQ publish() function is not found.");
         }
 
         $this->allowedEvents = array_merge($this->allowedEvents, $additionalAllowedEvents);
+        $this->logPii = $logPii;
+        $this->prefix = $prefix;
     }
 
     public function log(LogEventInterface $event): void
     {
-        $rabbitLogEvent = new RabbitLogEvent($event);
+        $rabbitLogEvent = new RabbitLogEvent($event, $this->prefix, $this->logPii);
 
         publish($rabbitLogEvent);
     }

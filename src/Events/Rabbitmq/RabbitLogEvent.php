@@ -12,20 +12,24 @@ use RabbitEvents\Publisher\Support\AbstractPublishableEvent;
 class RabbitLogEvent extends AbstractPublishableEvent
 {
     private LogEventInterface $event;
+    private string $prefix;
+    private bool $logPii;
 
-    public function __construct(LogEventInterface $event)
+    public function __construct(LogEventInterface $event, string $prefix, bool $logPii = false)
     {
         $this->event = $event;
+        $this->logPii = $logPii;
+        $this->prefix = $prefix;
     }
 
     public function publishEventKey(): string
     {
-        return config('rabbitevents.prefix') . '.' . $this->getEventKey();
+        return $this->prefix . '.' . $this->getEventKey();
     }
 
     public function toPublish(): array
     {
-        $logData = $this->event->getLogData();
+        $logData = $this->logPii ? $this->event->getMergedPiiData() : $this->event->getLogData();
 
         $publish = [
             'routing_key' => $this->publishEventKey(),
@@ -68,7 +72,7 @@ class RabbitLogEvent extends AbstractPublishableEvent
 
     private function getSource(): string
     {
-        return config('rabbitevents.prefix');
+        return $this->prefix;
     }
 
     /**
@@ -107,7 +111,9 @@ class RabbitLogEvent extends AbstractPublishableEvent
 
     private function getRequestFromLogData(): array
     {
-        $request = Arr::get($this->event->getLogData(), 'request', []);
+        $data = $this->logPii ? $this->event->getMergedPiiData() : $this->event->getLogData();
+
+        $request = Arr::get($data, 'request', []);
         unset($request['source']);
 
         return $request;

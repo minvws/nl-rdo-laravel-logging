@@ -36,6 +36,7 @@ abstract class GeneralLogEvent implements LogEventInterface
         public bool $failed = false,
         public string $source = '',
         public ?string $failedReason = null,
+        public bool $logFullRequest = false,
     ) {
         if (!empty($this->source)) {
             $this->data['source'] = $this->source;
@@ -66,7 +67,7 @@ abstract class GeneralLogEvent implements LogEventInterface
     {
         $data = $this->piiData;
 
-        if (config('logging.log_full_request', false)) {
+        if ($this->logFullRequest) {
             $httpRequest = Request::capture();
 
             $data['http_request'] = $httpRequest->request->all();
@@ -90,19 +91,7 @@ abstract class GeneralLogEvent implements LogEventInterface
 
     public function getMergedPiiData(): array
     {
-        $result = array_merge($this->getLogData(), $this->getPiiLogData());
-
-        $request = $this->getLogData()['request'];
-        foreach ($this->getPiiLogData()['request'] as $field => $value) {
-            if (isset($request[$field])) {
-                $request['pii_' . $field] = $value;
-            } else {
-                $request[$field] = $value;
-            }
-        }
-
-        $result['request'] = $request;
-        return $result;
+        return array_merge_recursive($this->getLogData(), $this->getPiiLogData());
     }
 
     public function getEventKey(): string

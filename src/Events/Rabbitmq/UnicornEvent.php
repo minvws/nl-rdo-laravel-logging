@@ -8,16 +8,18 @@ use RabbitEvents\Publisher\Support\AbstractPublishableEvent;
 
 class UnicornEvent extends AbstractPublishableEvent
 {
+    private string $prefix;
     private int $time;
 
-    public function __construct()
+    public function __construct(string $prefix = "")
     {
         $this->time = time();
+        $this->prefix = $prefix;
     }
 
     public function publishEventKey(): string
     {
-        return config('rabbitevents.prefix') . '.unicorn';
+        return $this->prefix . '.unicorn';
     }
 
     private function getUnicorn(): string
