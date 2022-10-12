@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace MinVWS\Logging\Laravel;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use MinVWS\Logging\Laravel\Loggers\SysLogger;
 use Illuminate\Support\ServiceProvider;
 use MinVWS\Logging\Laravel\Loggers\DbLogger;
@@ -30,13 +32,16 @@ class LogServiceProvider extends ServiceProvider
                 $logger->addLogger(new SysLogger(
                     config('logging.syslog_encrypt'),
                     config('logging.syslog_pubkey') ? base64_decode(config('logging.syslog_pubkey', '')) : "",
-                    config('logging.syslog_secret') ? base64_decode(config('logging.syslog_secret', '')) : ""
+                    config('logging.syslog_secret') ? base64_decode(config('logging.syslog_secret', '')) : "",
+                    App::make(Log::class)
                 ));
             }
 
             if (config('logging.rabbitmq_enabled', false)) {
                 $logger->addLogger(new RabbitLogger(
                     config('logging.rabbitmq_additional_allowed_events', []),
+                    config('rabbitevents.prefix', config('app.name', 'laravel')),
+                    config('logging.rabbitmq_log_pii', false),
                 ));
             }
 

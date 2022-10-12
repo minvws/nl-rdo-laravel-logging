@@ -4,18 +4,26 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Loggers;
 
+use Illuminate\Log\Logger;
 use MinVWS\Logging\Laravel\Events\Logging\GeneralLogEvent;
-use Illuminate\Support\Facades\Log;
 
 class SysLogger implements LoggerInterface
 {
-    public function __construct(protected bool $encrypt, protected string $pubKey, protected string $privKey)
-    {
+    protected Logger $logger;
+
+    public function __construct(
+        protected bool $encrypt,
+        protected string $pubKey,
+        protected string $privKey,
+        Logger $logger
+    ) {
         if ($this->encrypt && !function_exists('sodium_crypto_box')) {
             throw new \Exception(
                 "libsodium cound not found. Please install libsodium or do not use encryption in the syslogger"
             );
         }
+
+        $this->logger = $logger;
     }
 
     public function log(LogEventInterface $event): void
@@ -32,7 +40,7 @@ class SysLogger implements LoggerInterface
             $data = json_encode($data, JSON_THROW_ON_ERROR);
         }
 
-        Log::info('AuditLog: ' . base64_encode($data));
+        $this->logger->info('AuditLog: ' . base64_encode($data));
     }
 
     public function canHandleEvent(LogEventInterface $event): bool

@@ -17,4 +17,5 @@ return [
     'syslog_secret' => env('AUDIT_SYSLOG_OUR_PRIV_KEY'),
 
     'rabbitmq_additional_allowed_events' => [],
+    'rabbitmq_log_pii' => env('AUDIT_RABBITMQ_LOG_PII', false),
 ];
