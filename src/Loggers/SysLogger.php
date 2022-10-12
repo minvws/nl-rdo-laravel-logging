@@ -11,8 +11,12 @@ class SysLogger implements LoggerInterface
 {
     protected Logger $logger;
 
-    public function __construct(protected bool $encrypt, protected string $pubKey, protected string $privKey, Logger $logger)
-    {
+    public function __construct(
+        protected bool $encrypt,
+        protected string $pubKey,
+        protected string $privKey,
+        Logger $logger
+    ) {
         if ($this->encrypt && !function_exists('sodium_crypto_box')) {
             throw new \Exception(
                 "libsodium cound not found. Please install libsodium or do not use encryption in the syslogger"
@@ -36,7 +40,7 @@ class SysLogger implements LoggerInterface
             $data = json_encode($data, JSON_THROW_ON_ERROR);
         }
 
-        $this->logger->info('AuditLog: '.base64_encode($data));
+        $this->logger->info('AuditLog: ' . base64_encode($data));
     }
 
     public function canHandleEvent(LogEventInterface $event): bool

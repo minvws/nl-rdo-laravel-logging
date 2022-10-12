@@ -43,5 +43,4 @@ class LogServiceTest extends Mockery\Adapter\Phpunit\MockeryTestCase
         $service = new LogService([$mockService]);
         $service->log(new UserLoginLogEvent());
     }
-
 }
