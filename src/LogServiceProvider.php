@@ -16,7 +16,7 @@ class LogServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->app->singleton(LogService::class, function (App $app) {
+        $this->app->singleton(LogService::class, function () {
             $logger = new LogService([]);
 
             if (config('logging.dblog_enabled', false)) {
@@ -33,7 +33,7 @@ class LogServiceProvider extends ServiceProvider
                     config('logging.syslog_encrypt'),
                     config('logging.syslog_pubkey') ? base64_decode(config('logging.syslog_pubkey', '')) : "",
                     config('logging.syslog_secret') ? base64_decode(config('logging.syslog_secret', '')) : "",
-                    $app->make(Log::class)
+                    App::make(Log::class)
                 ));
             }
 
