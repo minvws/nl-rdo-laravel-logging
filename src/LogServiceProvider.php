@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace MinVWS\Logging\Laravel;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Log;
 use MinVWS\Logging\Laravel\Loggers\SysLogger;
 use Illuminate\Support\ServiceProvider;
 use MinVWS\Logging\Laravel\Loggers\DbLogger;
 use MinVWS\Logging\Laravel\Loggers\RabbitLogger;
+use Illuminate\Foundation\Application;
 
 class LogServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->app->singleton(LogService::class, function () {
+        $this->app->singleton(LogService::class, function (Application $app) {
             $logger = new LogService([]);
 
             if (config('logging.dblog_enabled', false)) {
@@ -33,7 +32,7 @@ class LogServiceProvider extends ServiceProvider
                     config('logging.syslog_encrypt'),
                     config('logging.syslog_pubkey') ? base64_decode(config('logging.syslog_pubkey', '')) : "",
                     config('logging.syslog_secret') ? base64_decode(config('logging.syslog_secret', '')) : "",
-                    App::make(Log::class)
+                    $app->make('log')
                 ));
             }
 
