@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Loggers;
 
-use Illuminate\Log\Logger;
 use MinVWS\Logging\Laravel\Events\Logging\GeneralLogEvent;
+use Psr\Log\LoggerInterface as PsrLoggerInterface;
 
 class SysLogger implements LoggerInterface
 {
-    protected Logger $logger;
+    protected PsrLoggerInterface $logger;
 
     public function __construct(
         protected bool $encrypt,
         protected string $pubKey,
         protected string $privKey,
-        Logger $logger
+        PsrLoggerInterface $logger
     ) {
         if ($this->encrypt && !function_exists('sodium_crypto_box')) {
             throw new \Exception(
