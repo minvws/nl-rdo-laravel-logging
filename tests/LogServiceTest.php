@@ -8,7 +8,6 @@ use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
 use MinVWS\Logging\Laravel\Loggers\LoggerInterface;
 use MinVWS\Logging\Laravel\LogService;
 use Mockery;
-use PHPUnit\Framework\TestCase;
 
 class LogServiceTest extends Mockery\Adapter\Phpunit\MockeryTestCase
 {
