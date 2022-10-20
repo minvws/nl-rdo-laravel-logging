@@ -12,9 +12,13 @@ class DbLogger implements LoggerInterface
     // The eloquent model that will be created
     protected string $modelFqcn;
 
-    public function __construct(string $modelFqcn)
+    // An additional factory that will generate the model for us
+    protected ?ModelFactoryInterface $modelFactory;
+
+    public function __construct(string $modelFqcn, ?ModelFactoryInterface $modelFactory = null)
     {
         $this->modelFqcn = $modelFqcn;
+        $this->modelFactory = $modelFactory;
     }
 
     public function log(LogEventInterface $event): void
@@ -27,12 +31,15 @@ class DbLogger implements LoggerInterface
             }
         }
 
-        // Create a database record based for the configured model
-        $model = new $this->modelFqcn();
+        // Create the model based on the FQCN or the factory
+        if ($this->modelFactory) {
+            $model = $this->modelFactory->create($this->modelFqcn, $data);
+        } else {
+            $model = new $this->modelFqcn();
+        }
 
         /** @var Model $model */
-        // @phpstan-ignore-next-line
-        $model::create($data);
+        $model::create($data);      // @phpstan-ignore-line
     }
 
     public function canHandleEvent(LogEventInterface $event): bool

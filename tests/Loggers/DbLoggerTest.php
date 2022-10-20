@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+namespace MinVWS\Logging\Laravel\Tests\Loggers;
+
+use Illuminate\Database\Eloquent\Model;
+use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
+use MinVWS\Logging\Laravel\Loggers\DbLogger;
+use MinVWS\Logging\Laravel\Loggers\ModelFactoryInterface;
+use MinVWS\Logging\Laravel\Tests\AuditLog;
+use MinVWS\Logging\Laravel\Tests\User;
+use Mockery;
+
+class DbLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase implements ModelFactoryInterface
+{
+    public function testDblogger(): void
+    {
+        $user = new User();
+        $user->email = "john@example.org";
+        $user->id = '12345';
+
+        $event = new UserLoginLogEvent(
+            actor: $user,
+            data: ['foo' => 'bar'],
+            piiData: ['bar' => 'baz'],
+        );
+
+        $service = new DbLogger(AuditLog::class, $this);
+        $service->log($event);
+    }
+
+    public function create(string $modelFqcn, array $data): Model
+    {
+        /** @var Mockery\MockInterface|Model $mock */
+        $mock = Mockery::mock($modelFqcn);
+        $mock->shouldReceive('create')->with($data)->once();
+
+        return $mock;
+    }
+}

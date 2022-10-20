@@ -94,7 +94,13 @@ class RabbitLogEvent extends AbstractPublishableEvent
 
     private function getIpAddress(): ?string
     {
-        return Arr::get($this->event->getPiiLogData(), 'request.ip_address') ?? app('request')->ip() ?? null;
+        $ip = Arr::get($this->event->getPiiLogData(), 'request.ip_address');
+        if (! is_null($ip)) {
+            return $ip;
+        }
+
+        // We need to explicitly check for request service because unittests do not have these :/
+        return app()->has('request') ? app('request')->ip() : null;
     }
 
     /**
