@@ -6,9 +6,9 @@
 | Event code | routing key | Description |
 |------------|-------------|-------------|
 | 080001 | declaration | Declaration event |
-| 080001 | registration | Registration event |
 | 080002 | log_access | Accessing logs |
 | 080003 | verification_code_disabled | Disabled verification code |
+| 080004 | registration | Registration event |
 |------------|-------------|-------------|
 | 090001 | account_change | generic user account changes |
 | 090002 | user_created | created new user |
