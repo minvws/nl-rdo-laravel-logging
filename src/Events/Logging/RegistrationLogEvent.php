@@ -8,7 +8,7 @@ use MinVWS\Logging\Laravel\Contracts\LoggableUser;
 
 class RegistrationLogEvent extends GeneralLogEvent
 {
-    public const EVENT_CODE = '080001';
+    public const EVENT_CODE = '080004';
     public const EVENT_KEY = 'registration';
 
     public function __construct(
