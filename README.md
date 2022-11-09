@@ -6,7 +6,7 @@
 | Event code | routing key | Description |
 |------------|-------------|-------------|
 | 080001 | declaration | Declaration event |
-| 080001 | registartion | Registration event |
+| 080001 | registration | Registration event |
 | 080002 | log_access | Accessing logs |
 | 080003 | verification_code_disabled | Disabled verification code |
 |------------|-------------|-------------|
