@@ -16,6 +16,7 @@ class AccountChangeLogEvent extends GeneralLogEvent
     public const EVENTCODE_TIMESLOT = '900103';
     public const EVENTCODE_ACTIVE = '900104';
     public const EVENTCODE_RESET = '900105';
+    public const EVENTCODE_ADDRESS = '900106';
 
     public const EVENTCODE_KVTB_USERDATA = '900201';
     public const EVENTCODE_KVTB_ROLES = '900202';
