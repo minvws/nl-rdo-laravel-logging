@@ -20,11 +20,10 @@ class DbLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase implements Mo
         $user->email = "john@example.org";
         $user->id = '12345';
 
-        $event = new UserLoginLogEvent(
-            actor: $user,
-            data: ['foo' => 'bar'],
-            piiData: ['bar' => 'baz'],
-        );
+        $event = (new UserLoginLogEvent())
+            ->withActor($user)
+            ->withData(['foo' => 'bar'])
+            ->withPiiData(['bar' => 'baz']);
 
         $service = new DbLogger(AuditLog::class, $this);
         $service->log($event);

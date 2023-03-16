@@ -31,7 +31,7 @@ class GeneralLogEventTest extends TestCase
             ]
         ];
 
-        $event = new RegistrationLogEvent(actor: null, target: null, data: $data, piiData: $piiData);
+        $event = (new RegistrationLogEvent())->withData($data)->withPiiData($piiData);
 
         $result = [
             'field_1' => 12,

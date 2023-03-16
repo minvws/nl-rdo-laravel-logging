@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Events\Logging;
 
-use MinVWS\Logging\Laravel\Contracts\LoggableUser;
-
 class AccountChangeLogEvent extends GeneralLogEvent
 {
     public const EVENT_CODE = '090001';
     public const EVENT_KEY = 'account_change';
+
+    // The account change log event encompasses multiple event codes.
+    // Use "withEventCode()" to set the correct event code.
 
     public const EVENTCODE_USERDATA = '900101';
     public const EVENTCODE_ROLES = '900102';
@@ -21,29 +22,4 @@ class AccountChangeLogEvent extends GeneralLogEvent
     public const EVENTCODE_KVTB_USERDATA = '900201';
     public const EVENTCODE_KVTB_ROLES = '900202';
     public const EVENTCODE_KVTB_RESET = '900203';
-
-
-    public function __construct(
-        public ?LoggableUser $actor,
-        public ?LoggableUser $target,
-        public array $data = [],
-        public array $piiData = [],
-        public string $actionCode = self::AC_UPDATE,
-        public bool $allowedAdminView = false,
-        public bool $failed = false,
-        public string $source = '',
-        public string $eventCode = self::EVENT_CODE,
-    ) {
-        parent::__construct(
-            $actor,
-            $target,
-            $data,
-            $piiData,
-            $eventCode,
-            $actionCode,
-            $allowedAdminView,
-            $failed,
-            $source
-        );
-    }
 }

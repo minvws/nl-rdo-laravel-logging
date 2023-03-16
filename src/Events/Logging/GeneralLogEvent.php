@@ -16,31 +16,115 @@ abstract class GeneralLogEvent implements LogEventInterface
     public const AC_DELETE = 'D';
     public const AC_EXECUTE = 'E';
 
-    public const SOURCE_KVTB = 'kvtb';
-    public const SOURCE_INGE3 = 'inge3';
-
     public const EVENT_CODE = '0000000';
     public const EVENT_KEY = 'log';
 
     # Fields which will be removed from the request data
-    public const PRIVATE_FIELDS = [ "_token", "token", "code", "password" ];
+    public const PRIVATE_FIELDS = [ "_token", "token", "code", "password", "secret" ];
 
-    public function __construct(
-        public ?LoggableUser $actor,
-        public ?LoggableUser $target,
-        public array $data = [],
-        public array $piiData = [],
-        public string $eventCode = '',
-        public string $actionCode = self::EVENT_CODE,
-        public bool $allowedAdminView = false,
-        public bool $failed = false,
-        public string $source = '',
-        public ?string $failedReason = null,
-        public bool $logFullRequest = false,
-    ) {
-        if (!empty($this->source)) {
-            $this->data['source'] = $this->source;
-        }
+    // Fields
+    public ?LoggableUser $actor = null;
+    public ?LoggableUser $target = null;
+    public array $data = [];
+    public array $piiData = [];
+    public string $eventCode = self::EVENT_CODE;
+    public string $eventKey = self::EVENT_KEY;
+    public string $actionCode = self::AC_EXECUTE;
+    public bool $allowedAdminView = false;
+    public bool $failed = false;
+    public string $source = '';
+    public ?string $failedReason = null;
+    public bool $logFullRequest = false;
+
+    public function __construct()
+    {
+        $this->eventKey = static::EVENT_KEY;
+        $this->eventCode = static::EVENT_CODE;
+    }
+
+    public function withActor(LoggableUser $actor): self
+    {
+        $this->actor = $actor;
+        return $this;
+    }
+
+    public function withTarget(LoggableUser $target): self
+    {
+        $this->target = $target;
+        return $this;
+    }
+
+    public function withData(array $data = []): self
+    {
+        $this->data = $data;
+        return $this;
+    }
+
+    public function withPiiData(array $piiData = []): self
+    {
+        $this->piiData = $piiData;
+        return $this;
+    }
+
+    public function withEventCode(string $eventCode): self
+    {
+        $this->eventCode = $eventCode;
+        return $this;
+    }
+
+    public function asCreate(): self
+    {
+        $this->actionCode = self::AC_CREATE;
+        return $this;
+    }
+
+    public function asUpdate(): self
+    {
+        $this->actionCode = self::AC_UPDATE;
+        return $this;
+    }
+
+    public function asExecute(): self
+    {
+        $this->actionCode = self::AC_EXECUTE;
+        return $this;
+    }
+
+    public function asRead(): self
+    {
+        $this->actionCode = self::AC_READ;
+        return $this;
+    }
+
+    public function asDelete(): self
+    {
+        $this->actionCode = self::AC_DELETE;
+        return $this;
+    }
+
+    public function withAllowedAdminView(bool $allowedAdminView): self
+    {
+        $this->allowedAdminView = $allowedAdminView;
+        return $this;
+    }
+
+    public function withFailed(bool $failed, string $failedReason = ''): self
+    {
+        $this->failed = $failed;
+        $this->failedReason = $failedReason;
+        return $this;
+    }
+
+    public function withSource(string $source): self
+    {
+        $this->source = $source;
+        return $this;
+    }
+
+    public function logFullRequest(bool $logFullRequest): self
+    {
+        $this->logFullRequest = $logFullRequest;
+        return $this;
     }
 
     /**
@@ -96,12 +180,12 @@ abstract class GeneralLogEvent implements LogEventInterface
 
     public function getEventKey(): string
     {
-        return static::EVENT_KEY;
+        return $this->eventKey;
     }
 
     public function getEventCode(): string
     {
-        return static::EVENT_CODE;
+        return $this->eventCode;
     }
 
     public function getActor(): ?LoggableUser
@@ -112,15 +196,5 @@ abstract class GeneralLogEvent implements LogEventInterface
     public function getTargetUser(): ?LoggableUser
     {
         return $this->target;
-    }
-
-    public function setLogData(array $data): void
-    {
-        $this->data = $data;
-    }
-
-    public function setPiiLogData(array $data): void
-    {
-        $this->piiData = $data;
     }
 }
