@@ -43,11 +43,10 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
         $user->email = "john@example.org";
         $user->id = '12345';
 
-        $event = new UserLoginLogEvent(
-            actor: $user,
-            data: ['foo' => 'bar'],
-            piiData: ['bar' => 'baz'],
-        );
+        $event = (new UserLoginLogEvent())
+            ->withActor($user)
+            ->withData(['foo' => 'bar'])
+            ->withPiiData(['bar' => 'baz']);
 
         $service = new SysLogger(false, '', '', $mock);
         $service->log($event);
@@ -99,11 +98,10 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
         $user->email = "john@example.org";
         $user->id = '12345';
 
-        $event = new UserLoginLogEvent(
-            actor: $user,
-            data: ['foo' => 'bar'],
-            piiData: ['bar' => 'baz'],
-        );
+        $event = (new UserLoginLogEvent())
+            ->withActor($user)
+            ->withData(['foo' => 'bar'])
+            ->withPiiData(['bar' => 'baz']);
 
         $service = new SysLogger(true, $publicKey2, $privateKey1, $mock);
         $service->log($event);
