@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Models;
 
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -29,7 +28,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|AuditLog whereEventCode($value)
  * @method static Builder|AuditLog whereFailed($value)
  * @method static Builder|AuditLog whereRequest($value)
- * @mixin Eloquent
  */
 class AuditLog extends Model
 {
