@@ -110,7 +110,7 @@ To use the logger, inject or resolve the `LogService` class. This class has a si
 
 ```php
 
-  $logger = app('LogService::class');
+  $logger = app(LogService::class);
   $logger->log((new UserLoginLogEvent())
       ->asExecute()
       ->withActor($user)
