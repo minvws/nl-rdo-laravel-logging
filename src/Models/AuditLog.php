@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -18,16 +17,6 @@ use Illuminate\Support\Carbon;
  * @property string $action_code
  * @property bool $allowed_admin_view
  * @property bool $failed
- * @method static Builder|AuditLog newModelQuery()
- * @method static Builder|AuditLog newQuery()
- * @method static Builder|AuditLog query()
- * @method static Builder|AuditLog whereActionCode($value)
- * @method static Builder|AuditLog whereAllowedAdminView($value)
- * @method static Builder|AuditLog whereCreatedAt($value)
- * @method static Builder|AuditLog whereEmail($value)
- * @method static Builder|AuditLog whereEventCode($value)
- * @method static Builder|AuditLog whereFailed($value)
- * @method static Builder|AuditLog whereRequest($value)
  */
 class AuditLog extends Model
 {
