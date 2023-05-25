@@ -20,7 +20,8 @@
   "require": {
     "php": "^8.0",
     "laravel/framework": "^7.30.6|^8.75.0|^9.0|^10.0",
-    "nuwber/rabbitevents": "^7.0"
+    "nuwber/rabbitevents": "^7.0",
+    "nesbot/carbon": "^2.66"
   },
   "require-dev": {
     "orchestra/testbench": "^6.0",
