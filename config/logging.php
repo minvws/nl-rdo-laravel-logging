@@ -15,6 +15,7 @@ return [
     'syslog_encrypt' => env('AUDIT_SYSLOG_THEIR_PUB_KEY') != null,
     'syslog_pubkey' => env('AUDIT_SYSLOG_THEIR_PUB_KEY'),
     'syslog_secret' => env('AUDIT_SYSLOG_OUR_PRIV_KEY'),
+    'syslog_channel' => env('AUDIT_SYSLOG_CHANNEL'),
 
     'rabbitmq_additional_allowed_events' => [],
     'rabbitmq_log_pii' => env('AUDIT_RABBITMQ_LOG_PII', false),
