@@ -14,9 +14,11 @@ use Illuminate\Foundation\Application;
 
 class LogServiceProvider extends ServiceProvider
 {
-    public function register() {
+    public function register()
+    {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/logging.php', 'logging'
+            __DIR__ .'/../config/logging.php',
+            'logging'
         );
     }
 
