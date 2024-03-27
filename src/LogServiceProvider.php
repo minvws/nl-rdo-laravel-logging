@@ -33,7 +33,12 @@ class LogServiceProvider extends ServiceProvider
                     throw new \Exception("Model $modelFqcn does not inherit the eloquent model class");
                 }
 
-                $logger->addLogger(new DbLogger($modelFqcn));
+                $logger->addLogger(new DbLogger(
+                    config('logging.dblog_encrypt'),
+                    config('logging.dblog_pubkey') ? base64_decode(config('logging.dblog_pubkey', '')) : "",
+                    config('logging.dblog_secret') ? base64_decode(config('logging.dblog_secret', '')) : "",
+                    $modelFqcn
+                ));
             }
 
             if (config('logging.syslog_enabled', false)) {

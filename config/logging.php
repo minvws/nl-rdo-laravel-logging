@@ -6,7 +6,7 @@ return [
     'rabbitmq_enabled' => env('AUDIT_RABBITMQ_ENABLED', false),
 
     // The model we use to write data to the database via the dblogger
-    'auditlog_model' => AuditLog::class,
+    'auditlog_model' => MinVWS\Logging\Laravel\Models\AuditLog::class,
 
     // Automatically logs the complete HTTP request
     'log_full_request' => env('AUDIT_LOG_FULL_REQUEST', false),
