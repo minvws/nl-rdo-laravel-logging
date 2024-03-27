@@ -16,6 +16,8 @@ class DbLogger implements LoggerInterface
     // An additional factory that will generate the model for us
     protected ?ModelFactoryInterface $modelFactory;
 
+    protected string $pair;
+
     public function __construct(
         protected bool $encrypt,
         protected string $pubKey,
