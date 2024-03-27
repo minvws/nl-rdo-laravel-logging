@@ -16,7 +16,7 @@ class DbLogger implements LoggerInterface
     // An additional factory that will generate the model for us
     protected ?ModelFactoryInterface $modelFactory;
 
-    protected string $pair;
+    protected string|null $pair;
 
     public function __construct(
         protected bool $encrypt,
@@ -27,7 +27,9 @@ class DbLogger implements LoggerInterface
     ) {
         $this->modelFqcn = $modelFqcn;
         $this->modelFactory = $modelFactory;
-        $this->pair = sodium_crypto_box_keypair_from_secretkey_and_publickey($this->privKey, $this->pubKey);
+        if ($this->encrypt) {
+            $this->pair = sodium_crypto_box_keypair_from_secretkey_and_publickey($this->privKey, $this->pubKey);
+        }
     }
 
     public function log(LogEventInterface $event): void
@@ -36,7 +38,7 @@ class DbLogger implements LoggerInterface
 
         $piiData = $event->getPiiLogData();
 
-        if ($this->encrypt) {
+        if ($this->encrypt && $this->pair !== null) {
             $nonce = random_bytes(SODIUM_CRYPTO_BOX_NONCEBYTES);
             $encrypted = sodium_crypto_box(json_encode($piiData, JSON_THROW_ON_ERROR), $nonce, $this->pair);
 
