@@ -9,10 +9,10 @@ use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
 use MinVWS\Logging\Laravel\Loggers\DbLogger;
 use MinVWS\Logging\Laravel\Loggers\ModelFactoryInterface;
 use MinVWS\Logging\Laravel\Tests\AuditLog;
+use Orchestra\Testbench\TestCase;
 use MinVWS\Logging\Laravel\Tests\User;
-use Mockery;
 
-class DbLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase implements ModelFactoryInterface
+class DbLoggerTest extends TestCase implements ModelFactoryInterface
 {
     public function testDblogger(): void
     {
@@ -25,7 +25,13 @@ class DbLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase implements Mo
             ->withData(['foo' => 'bar'])
             ->withPiiData(['bar' => 'baz']);
 
-        $service = new DbLogger(AuditLog::class, $this);
+        $service = new DbLogger(
+            false,
+            '',
+            '',
+            AuditLog::class,
+            $this
+        );
         $service->log($event);
     }
 
