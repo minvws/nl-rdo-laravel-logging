@@ -2,6 +2,9 @@
 
 return [
     'dblog_enabled' => env('AUDIT_DBLOG_ENABLED', false),
+    'dblog_encrypt' => env('AUDIT_DBLOG_THEIR_PUB_KEY') != null,
+    'dblog_pubkey' => env('AUDIT_DBLOG_THEIR_PUB_KEY'),
+    'dblog_secret' => env('AUDIT_DBLOG_OUR_PRIV_KEY'),
     'syslog_enabled' => env('AUDIT_SYSLOG_ENABLED', false),
     'rabbitmq_enabled' => env('AUDIT_RABBITMQ_ENABLED', false),
 
