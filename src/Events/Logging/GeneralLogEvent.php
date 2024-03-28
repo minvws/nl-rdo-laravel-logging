@@ -134,7 +134,7 @@ abstract class GeneralLogEvent implements LogEventInterface
     {
         return [
             'user_id' => $this->actor?->id,
-            'request' => $this->data,
+            'context' => $this->data,
             'created_at' => now(),
             'event_code' => $this->eventCode,
             'action_code' => $this->actionCode[0],
@@ -168,7 +168,7 @@ abstract class GeneralLogEvent implements LogEventInterface
         }
 
         return [
-            'request' => $data,
+            'context' => $data,
             'email' => $this->actor?->email,
         ];
     }
