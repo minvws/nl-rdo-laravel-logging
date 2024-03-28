@@ -13,5 +13,4 @@ class User implements LoggableUser
     public string|null $name;
     public string|null $ggd_region;
     public string|null $roles;
-
 }
