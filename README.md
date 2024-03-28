@@ -66,7 +66,7 @@ CREATE TABLE public.audit_logs
 (
     email              character varying(320),
     context            json,
-    encrypted_context  string,
+    pii_context        text,
     created_at         timestamp(0) without time zone,
     event_code         character varying(255),
     action_code        character varying(255),
