@@ -57,5 +57,7 @@ class AuditLog extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'context' => 'json',
+        'allowed_admin_view' => 'boolean',
+        'failed' => 'boolean'
     ];
 }

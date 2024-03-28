@@ -63,7 +63,6 @@ class DbLogger implements LoggerInterface
             $model = new $this->modelFqcn();
         }
 
-
         /** @var Model $model */
         $model::create($data);      // @phpstan-ignore-line
     }
