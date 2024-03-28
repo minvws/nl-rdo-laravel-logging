@@ -8,6 +8,6 @@ use MinVWS\Logging\Laravel\Contracts\LoggableUser;
 
 class User implements LoggableUser
 {
-    public string $id;
-    public string $email;
+    public string|null $id;
+    public string|null $email;
 }
