@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MinVWS\Logging\Laravel\Loggers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use JsonException;
 
@@ -61,6 +62,7 @@ class DbLogger implements LoggerInterface
         } else {
             $model = new $this->modelFqcn();
         }
+
 
         /** @var Model $model */
         $model::create($data);      // @phpstan-ignore-line

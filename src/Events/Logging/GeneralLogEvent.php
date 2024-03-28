@@ -133,7 +133,7 @@ abstract class GeneralLogEvent implements LogEventInterface
     public function getLogData(): array
     {
         return [
-            'user_id' => $this->actor?->id,
+            'user_id' => $this->actor->id ?? null,
             'request' => $this->data,
             'created_at' => now(),
             'event_code' => $this->eventCode,
@@ -155,9 +155,9 @@ abstract class GeneralLogEvent implements LogEventInterface
             $httpRequest = Request::capture();
 
             $data['http_request'] = $httpRequest->request->all();
-            $data['name'] = $this->actor?->name;
-            $data['region_code'] = $this->actor?->ggd_region;
-            $data['roles'] = $this->actor?->roles;
+            $data['name'] = $this->actor->name ?? null;
+            $data['region_code'] = $this->actor->ggd_region ?? null;
+            $data['roles'] = $this->actor?->roles ?? null;
 
             # Remove private fields from the request data, if found
             foreach (self::PRIVATE_FIELDS as $field) {
@@ -169,7 +169,7 @@ abstract class GeneralLogEvent implements LogEventInterface
 
         return [
             'request' => $data,
-            'email' => $this->actor?->email,
+            'email' => $this->actor->email ?? null,
         ];
     }
 

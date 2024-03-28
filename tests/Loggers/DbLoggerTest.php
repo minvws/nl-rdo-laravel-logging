@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace MinVWS\Logging\Laravel\Tests\Loggers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
 use MinVWS\Logging\Laravel\Loggers\DbLogger;
 use MinVWS\Logging\Laravel\Loggers\ModelFactoryInterface;
-use MinVWS\Logging\Laravel\Tests\AuditLog;
+use MinVWS\Logging\Laravel\Models\AuditLog;
+use MinVWS\Logging\Laravel\Tests\TestCase;
 use Mockery;
-use Orchestra\Testbench\TestCase;
 use MinVWS\Logging\Laravel\Tests\User;
 
-class DbLoggerTest extends TestCase implements ModelFactoryInterface
+class DbLoggerTest extends TestCase
 {
     public function testDblogger(): void
     {
         $user = new User();
-        $user->email = "john@example.org";
-        $user->id = '12345';
 
         $event = (new UserLoginLogEvent())
             ->withActor($user)
@@ -31,17 +30,30 @@ class DbLoggerTest extends TestCase implements ModelFactoryInterface
             '',
             '',
             AuditLog::class,
-            $this
         );
+        DB::connection()->enableQueryLog();
+
         $service->log($event);
-    }
 
-    public function create(string $modelFqcn, array $data): Model
-    {
-        /** @var Mockery\MockInterface|Model $mock */
-        $mock = Mockery::mock($modelFqcn);
-        $mock->shouldReceive('create')->with($data)->once();
+        $actual_all = AuditLog::all();
+        $this->assertCount(1, $actual_all);
+        $actual = $actual_all->first()->getAttributes();
 
-        return $mock;
+        $this->assertEquals(
+            [
+                'email' => null,
+                'context' => '{"foo":"bar"}',
+                'pii_context' => base64_encode(json_encode([
+                    "request" => ['bar' => 'baz'],
+                    "email" => null
+                ])),
+                'created_at' => $actual['created_at'],
+                'event_code' => '091111',
+                'action_code' => 'E',
+                'allowed_admin_view' => false,
+                'failed' => false,
+            ],
+            $actual
+        );
     }
 }
