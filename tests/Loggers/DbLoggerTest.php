@@ -9,6 +9,7 @@ use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
 use MinVWS\Logging\Laravel\Loggers\DbLogger;
 use MinVWS\Logging\Laravel\Loggers\ModelFactoryInterface;
 use MinVWS\Logging\Laravel\Tests\AuditLog;
+use Mockery;
 use Orchestra\Testbench\TestCase;
 use MinVWS\Logging\Laravel\Tests\User;
 
