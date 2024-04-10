@@ -35,14 +35,14 @@ class DbLoggerTest extends TestCase
 
         $service->log($event);
 
-        $actual_all = AuditLog::all();
-        $this->assertCount(1, $actual_all);
-        $actual = $actual_all->first()->getAttributes();
+        $actualAll = AuditLog::all();
+        $this->assertCount(1, $actualAll);
+        $actual = $actualAll->first();
 
         $this->assertEquals(
-            [
+            AuditLog::create([
                 'email' => null,
-                'context' => '{"foo":"bar"}',
+                'context' => ['foo' => 'bar'],
                 'pii_context' => base64_encode(json_encode([
                     "context" => ['bar' => 'baz'],
                     "email" => null
@@ -52,8 +52,8 @@ class DbLoggerTest extends TestCase
                 'action_code' => 'E',
                 'allowed_admin_view' => false,
                 'failed' => false,
-            ],
-            $actual
+            ])->toArray(),
+            $actual->toArray()
         );
     }
 }
