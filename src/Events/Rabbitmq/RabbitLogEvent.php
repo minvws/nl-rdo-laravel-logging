@@ -94,7 +94,7 @@ class RabbitLogEvent extends AbstractPublishableEvent
 
     private function getIpAddress(): ?string
     {
-        $ip = Arr::get($this->event->getPiiLogData(), 'request.ip_address');
+        $ip = Arr::get($this->event->getPiiLogData(), 'context.ip_address');
         if (! is_null($ip)) {
             return $ip;
         }
@@ -119,9 +119,9 @@ class RabbitLogEvent extends AbstractPublishableEvent
     {
         $data = $this->logPii ? $this->event->getMergedPiiData() : $this->event->getLogData();
 
-        $request = Arr::get($data, 'request', []);
-        unset($request['source']);
+        $context = Arr::get($data, 'context', []);
+        unset($context['source']);
 
-        return $request;
+        return $context;
     }
 }

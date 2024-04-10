@@ -29,8 +29,8 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             $this->assertIsArray($data);
 
             $this->assertEquals(UserLoginLogEvent::EVENT_CODE, $data['event_code']);
-            $this->assertArrayHasKey('foo', $data['request']);
-            $this->assertArrayHasKey('bar', $data['request']);
+            $this->assertArrayHasKey('foo', $data['context']);
+            $this->assertArrayHasKey('bar', $data['context']);
 
             $this->assertEquals('12345', $data['user_id']);
             $this->assertEquals('john@example.org', $data['email']);
@@ -84,8 +84,8 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             $this->assertIsArray($data);
 
             $this->assertEquals(UserLoginLogEvent::EVENT_CODE, $data['event_code']);
-            $this->assertArrayHasKey('foo', $data['request']);
-            $this->assertArrayHasKey('bar', $data['request']);
+            $this->assertArrayHasKey('foo', $data['context']);
+            $this->assertArrayHasKey('bar', $data['context']);
 
             $this->assertEquals('12345', $data['user_id']);
             $this->assertEquals('john@example.org', $data['email']);

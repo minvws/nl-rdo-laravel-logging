@@ -45,6 +45,6 @@ class GeneralLogEventTest extends TestCase
                 'name' => 'billy',
             ]
         ];
-        $this->assertEquals($result, $event->getMergedPiiData()['request']);
+        $this->assertEquals($result, $event->getMergedPiiData()['context']);
     }
 }

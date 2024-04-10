@@ -25,8 +25,9 @@ class RabbitLoggerTest extends MockeryTestCase
             $this->assertEquals('phpunit.user_login', $data['routing_key']);
             $this->assertEquals('phpunit', $data['source']);
             $this->assertEquals('12345', $data['user']['user_id']);
+            $this->assertEquals('123.123.123.123', $data['user']['ip']);
 
-            $this->assertEquals(['foo' => 'bar', 'bar' => 'baz'], $data['object']);
+            $this->assertEquals(['foo' => 'bar', 'bar' => 'baz', 'ip_address' => '123.123.123.123'], $data['object']);
 
             return true;
         });
@@ -38,7 +39,7 @@ class RabbitLoggerTest extends MockeryTestCase
         $event = (new UserLoginLogEvent())
             ->withActor($user)
             ->withData(['foo' => 'bar'])
-            ->withPiiData(['bar' => 'baz']);
+            ->withPiiData(['bar' => 'baz', 'ip_address' => '123.123.123.123']);
 
         $service = new RabbitLogger([], 'phpunit', true, $mock);
         $service->log($event);

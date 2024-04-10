@@ -27,7 +27,7 @@ class FluentSettersTest extends TestCase
         $data = $event->getLogData();
         $this->assertEquals('C', $data['action_code']);
         $this->assertEquals('1234', $data['user_id']);
-        $this->assertEquals(['foo' => 'bar'], $data['request']);
+        $this->assertEquals(['foo' => 'bar'], $data['context']);
         $this->assertTrue($data['failed']);
         $this->assertEquals('reason', $data['failed_reason']);
         $this->assertEquals('090005', $event->getEventCode());
@@ -37,7 +37,7 @@ class FluentSettersTest extends TestCase
         $data = $event->getLogData();
         $this->assertEquals('D', $data['action_code']);
         $this->assertEquals('1234', $data['user_id']);
-        $this->assertEquals(['foo' => 'bar'], $data['request']);
+        $this->assertEquals(['foo' => 'bar'], $data['context']);
         $this->assertTrue($data['failed']);
         $this->assertEquals('reason', $data['failed_reason']);
         $this->assertEquals('090005', $event->getEventCode());
@@ -47,7 +47,7 @@ class FluentSettersTest extends TestCase
         $data = $event->getLogData();
         $this->assertEquals('D', $data['action_code']);
         $this->assertEquals('1234', $data['user_id']);
-        $this->assertEquals(['a', 'b'], $data['request']);
+        $this->assertEquals(['a', 'b'], $data['context']);
         $this->assertTrue($data['failed']);
         $this->assertEquals('reason', $data['failed_reason']);
         $this->assertEquals('090005', $event->getEventCode());

@@ -44,7 +44,7 @@ class DbLoggerTest extends TestCase
                 'email' => null,
                 'context' => '{"foo":"bar"}',
                 'pii_context' => base64_encode(json_encode([
-                    "request" => ['bar' => 'baz'],
+                    "context" => ['bar' => 'baz'],
                     "email" => null
                 ])),
                 'created_at' => $actual['created_at'],
