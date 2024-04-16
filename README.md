@@ -72,6 +72,7 @@ CREATE TABLE public.audit_logs
     action_code        character varying(255),
     allowed_admin_view boolean,
     failed             boolean
+    failed_reason      text,
 );
 ```
 

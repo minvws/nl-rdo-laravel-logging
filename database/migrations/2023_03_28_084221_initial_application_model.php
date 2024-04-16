@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('action_code')->nullable();
             $table->boolean('allowed_admin_view')->default(false);
             $table->boolean('failed')->default(false);
+            $table->text('failed_reason')->nullable();
         });
     }
 
