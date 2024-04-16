@@ -31,7 +31,6 @@ class DbLoggerTest extends TestCase
             '',
             AuditLog::class,
         );
-        DB::connection()->enableQueryLog();
 
         $service->log($event);
 
