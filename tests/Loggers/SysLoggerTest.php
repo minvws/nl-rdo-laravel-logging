@@ -52,6 +52,33 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
         $service->log($event);
     }
 
+    public function testSysloggerWithoutSource(): void
+    {
+        $mock = Mockery::mock(Logger::class);
+        $mock->shouldReceive('info')->once()->withArgs(function ($args) {
+
+            $parts = explode(" ", $args, 2);
+            $msg = base64_decode($parts[1], true);
+            $data = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
+
+            $this->assertEquals('my-source', $data['source']);
+
+            // Should return a json base64 encoded string
+            return true;
+        });
+
+        $user = new User();
+        $user->email = "john@example.org";
+        $user->id = '12345';
+
+        $event = (new UserLoginLogEvent())
+            ->withData(['foo' => 'bar'])
+            ->withSource('my-source');
+
+        $service = new SysLogger(false, '', '', $mock);
+        $service->log($event);
+    }
+
     public function testSysloggerWithEncryption(): void
     {
         if (! function_exists('sodium_crypto_box_keypair')) {

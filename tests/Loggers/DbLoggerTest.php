@@ -23,7 +23,8 @@ class DbLoggerTest extends TestCase
         $event = (new UserLoginLogEvent())
             ->withActor($user)
             ->withData(['foo' => 'bar'])
-            ->withPiiData(['bar' => 'baz']);
+            ->withPiiData(['bar' => 'baz'])
+            ->withSource('my-source');
 
         $service = new DbLogger(
             false,
@@ -49,8 +50,10 @@ class DbLoggerTest extends TestCase
                 'created_at' => $actual['created_at'],
                 'event_code' => '091111',
                 'action_code' => 'E',
+                'source' => 'my-source',
                 'allowed_admin_view' => false,
                 'failed' => false,
+                'failed_reason' => null,
             ])->toArray(),
             $actual->toArray()
         );

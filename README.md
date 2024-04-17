@@ -70,6 +70,7 @@ CREATE TABLE public.audit_logs
     created_at         timestamp(0) without time zone,
     event_code         character varying(255),
     action_code        character varying(255),
+    source             character varying(255),
     allowed_admin_view boolean,
     failed             boolean,
     failed_reason      text

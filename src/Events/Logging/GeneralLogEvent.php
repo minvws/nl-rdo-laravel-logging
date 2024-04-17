@@ -138,6 +138,7 @@ abstract class GeneralLogEvent implements LogEventInterface
             'created_at' => now(),
             'event_code' => $this->eventCode,
             'action_code' => $this->actionCode[0],
+            'source' => $this->source,
             'allowed_admin_view' => $this->allowedAdminView,
             'failed' => $this->failed,
             'failed_reason' => $this->failedReason,

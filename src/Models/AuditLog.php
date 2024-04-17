@@ -16,8 +16,10 @@ use Illuminate\Support\Carbon;
  * @property Carbon $created_at
  * @property string $event_code
  * @property string $action_code
+ * @property string $source
  * @property bool $allowed_admin_view
  * @property bool $failed
+ * @property ?string $failed_reason
  */
 class AuditLog extends Model
 {
@@ -45,8 +47,10 @@ class AuditLog extends Model
         'created_at',
         'event_code',
         'action_code',
+        'source',
         'allowed_admin_view',
         'failed',
+        'failed_reason',
     ];
 
     /**

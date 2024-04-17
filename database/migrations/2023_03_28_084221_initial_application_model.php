@@ -23,6 +23,7 @@ return new class extends Migration
             $table->timestamp('created_at');
             $table->string('event_code')->nullable();
             $table->string('action_code')->nullable();
+            $table->string('source')->nullable();
             $table->boolean('allowed_admin_view')->default(false);
             $table->boolean('failed')->default(false);
             $table->text('failed_reason')->nullable();
