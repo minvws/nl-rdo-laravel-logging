@@ -29,8 +29,8 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             $this->assertIsArray($data);
 
             $this->assertEquals(UserLoginLogEvent::EVENT_CODE, $data['event_code']);
-            $this->assertArrayHasKey('foo', $data['request']);
-            $this->assertArrayHasKey('bar', $data['request']);
+            $this->assertArrayHasKey('foo', $data['context']);
+            $this->assertArrayHasKey('bar', $data['context']);
 
             $this->assertEquals('12345', $data['user_id']);
             $this->assertEquals('john@example.org', $data['email']);
@@ -47,6 +47,33 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             ->withActor($user)
             ->withData(['foo' => 'bar'])
             ->withPiiData(['bar' => 'baz']);
+
+        $service = new SysLogger(false, '', '', $mock);
+        $service->log($event);
+    }
+
+    public function testSysloggerWithoutSource(): void
+    {
+        $mock = Mockery::mock(Logger::class);
+        $mock->shouldReceive('info')->once()->withArgs(function ($args) {
+
+            $parts = explode(" ", $args, 2);
+            $msg = base64_decode($parts[1], true);
+            $data = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
+
+            $this->assertEquals('my-source', $data['source']);
+
+            // Should return a json base64 encoded string
+            return true;
+        });
+
+        $user = new User();
+        $user->email = "john@example.org";
+        $user->id = '12345';
+
+        $event = (new UserLoginLogEvent())
+            ->withData(['foo' => 'bar'])
+            ->withSource('my-source');
 
         $service = new SysLogger(false, '', '', $mock);
         $service->log($event);
@@ -84,8 +111,8 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             $this->assertIsArray($data);
 
             $this->assertEquals(UserLoginLogEvent::EVENT_CODE, $data['event_code']);
-            $this->assertArrayHasKey('foo', $data['request']);
-            $this->assertArrayHasKey('bar', $data['request']);
+            $this->assertArrayHasKey('foo', $data['context']);
+            $this->assertArrayHasKey('bar', $data['context']);
 
             $this->assertEquals('12345', $data['user_id']);
             $this->assertEquals('john@example.org', $data['email']);

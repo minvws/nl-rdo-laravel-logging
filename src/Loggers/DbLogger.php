@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace MinVWS\Logging\Laravel\Loggers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use JsonException;
 
 class DbLogger implements LoggerInterface
@@ -15,20 +17,43 @@ class DbLogger implements LoggerInterface
     // An additional factory that will generate the model for us
     protected ?ModelFactoryInterface $modelFactory;
 
-    public function __construct(string $modelFqcn, ?ModelFactoryInterface $modelFactory = null)
-    {
+    protected string|null $pair;
+
+    public function __construct(
+        protected bool $encrypt,
+        protected string $pubKey,
+        protected string $privKey,
+        string $modelFqcn,
+        ?ModelFactoryInterface $modelFactory = null
+    ) {
         $this->modelFqcn = $modelFqcn;
         $this->modelFactory = $modelFactory;
+        if ($this->encrypt) {
+            $this->pair = sodium_crypto_box_keypair_from_secretkey_and_publickey($this->privKey, $this->pubKey);
+        }
     }
 
     public function log(LogEventInterface $event): void
     {
-        $data = $event->getMergedPiiData();
+        $data = $event->getLogData();
+
+        $piiData = $event->getPiiLogData();
+
+        if ($this->encrypt && $this->pair !== null) {
+            $nonce = random_bytes(SODIUM_CRYPTO_BOX_NONCEBYTES);
+            $encrypted = sodium_crypto_box(json_encode($piiData, JSON_THROW_ON_ERROR), $nonce, $this->pair);
+
+            $piiData = $nonce . $encrypted;
+        } else {
+            $piiData = json_encode($piiData, JSON_THROW_ON_ERROR);
+        }
+
+        $data['pii_context'] = base64_encode($piiData);
+
         if (isset($data['request'])) {
-            try {
-                $data['request'] = json_encode($data['request'], JSON_THROW_ON_ERROR);
-            } catch (JsonException) {
-            }
+            Log::warning('Deprecated: `request` key is renamed to context, please update your code.');
+            $data['context'] = $data['request'];
+            unset($data['request']);
         }
 
         // Create the model based on the FQCN or the factory

@@ -5,36 +5,57 @@ declare(strict_types=1);
 namespace MinVWS\Logging\Laravel\Tests\Loggers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
 use MinVWS\Logging\Laravel\Loggers\DbLogger;
 use MinVWS\Logging\Laravel\Loggers\ModelFactoryInterface;
-use MinVWS\Logging\Laravel\Tests\AuditLog;
-use MinVWS\Logging\Laravel\Tests\User;
+use MinVWS\Logging\Laravel\Models\AuditLog;
+use MinVWS\Logging\Laravel\Tests\TestCase;
 use Mockery;
+use MinVWS\Logging\Laravel\Tests\User;
 
-class DbLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase implements ModelFactoryInterface
+class DbLoggerTest extends TestCase
 {
     public function testDblogger(): void
     {
         $user = new User();
-        $user->email = "john@example.org";
-        $user->id = '12345';
 
         $event = (new UserLoginLogEvent())
             ->withActor($user)
             ->withData(['foo' => 'bar'])
-            ->withPiiData(['bar' => 'baz']);
+            ->withPiiData(['bar' => 'baz'])
+            ->withSource('my-source');
 
-        $service = new DbLogger(AuditLog::class, $this);
+        $service = new DbLogger(
+            false,
+            '',
+            '',
+            AuditLog::class,
+        );
+
         $service->log($event);
-    }
 
-    public function create(string $modelFqcn, array $data): Model
-    {
-        /** @var Mockery\MockInterface|Model $mock */
-        $mock = Mockery::mock($modelFqcn);
-        $mock->shouldReceive('create')->with($data)->once();
+        $actualAll = AuditLog::all();
+        $this->assertCount(1, $actualAll);
+        $actual = $actualAll->first();
 
-        return $mock;
+        $this->assertEquals(
+            AuditLog::create([
+                'email' => null,
+                'context' => ['foo' => 'bar'],
+                'pii_context' => base64_encode(json_encode([
+                    "context" => ['bar' => 'baz'],
+                    "email" => null
+                ])),
+                'created_at' => $actual['created_at'],
+                'event_code' => '091111',
+                'action_code' => 'E',
+                'source' => 'my-source',
+                'allowed_admin_view' => false,
+                'failed' => false,
+                'failed_reason' => null,
+            ])->toArray(),
+            $actual->toArray()
+        );
     }
 }

@@ -56,6 +56,28 @@ There are currently three logging destinations available: the database, syslog a
 
 #### Database logging
 
+The basic `AuditLog` model is available and by default configured. If a different model is
+prefered to use, the `auditlog_model` option can be set to the actual class to use.
+
+The default model can be created in pgsql with the following statement:
+
+```sql
+CREATE TABLE public.audit_logs
+(
+    email              character varying(320),
+    context            json,
+    pii_context        text,
+    created_at         timestamp(0) without time zone,
+    event_code         character varying(255),
+    action_code        character varying(255),
+    source             character varying(255),
+    allowed_admin_view boolean,
+    failed             boolean,
+    failed_reason      text
+);
+```
+
+When logging to the database
 To log to the database, there needs to be a (eloquent) model like the `AuditLog` model.
 Note that this model is just an example, you can use your own model that might encrypt the
 actual data for instance.

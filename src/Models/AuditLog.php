@@ -11,12 +11,15 @@ use Illuminate\Support\Carbon;
  * MinVWS\Logging\Models\AuditLog
  *
  * @property string $email
- * @property array $request
+ * @property array $context
+ * @property string $pii_context
  * @property Carbon $created_at
  * @property string $event_code
  * @property string $action_code
+ * @property string $source
  * @property bool $allowed_admin_view
  * @property bool $failed
+ * @property ?string $failed_reason
  */
 class AuditLog extends Model
 {
@@ -39,12 +42,15 @@ class AuditLog extends Model
      */
     protected $fillable = [
         'email',
-        'request',
+        'context',
+        'pii_context',
         'created_at',
         'event_code',
         'action_code',
+        'source',
         'allowed_admin_view',
         'failed',
+        'failed_reason',
     ];
 
     /**
@@ -54,6 +60,8 @@ class AuditLog extends Model
      */
     protected $casts = [
         'created_at' => 'datetime',
-        'request' => 'json',
+        'context' => 'json',
+        'allowed_admin_view' => 'boolean',
+        'failed' => 'boolean'
     ];
 }
