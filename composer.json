@@ -18,17 +18,17 @@
     }
   ],
   "require": {
-    "php": "^8.0",
-    "laravel/framework": "^7.30.6|^8.75.0|^9.0|^10.0",
-    "nuwber/rabbitevents": "^7.0",
-    "nesbot/carbon": "^2.66"
+    "php": "^8.1",
+    "laravel/framework": "^10.0|^11.0",
+    "nuwber/rabbitevents": "^8.0",
+    "nesbot/carbon": "^2.72 || ^3.0"
   },
   "require-dev": {
-    "orchestra/testbench": "^6.15",
+    "orchestra/testbench": "^8.22",
     "phpunit/phpunit": "^9.5",
     "vimeo/psalm": "^4.23 || ^5.0",
     "phpstan/phpstan": "^1.7",
-    "squizlabs/php_codesniffer": "^3.6",
+    "squizlabs/php_codesniffer": "^3.9",
     "mockery/mockery": "^1.4.3"
   },
   "autoload": {
