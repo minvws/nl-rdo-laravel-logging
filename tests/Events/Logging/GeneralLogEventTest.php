@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Tests\Events\Logging;
 
-use MinVWS\Logging\Laravel\Events\Logging\RegistrationLogEvent;
+use MinVWS\AuditLogger\Events\Logging\RegistrationLogEvent;
 use PHPUnit\Framework\TestCase;
 
 class GeneralLogEventTest extends TestCase

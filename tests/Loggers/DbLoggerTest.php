@@ -6,7 +6,7 @@ namespace MinVWS\Logging\Laravel\Tests\Loggers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
+use MinVWS\AuditLogger\Events\Logging\UserLoginLogEvent;
 use MinVWS\Logging\Laravel\Loggers\DbLogger;
 use MinVWS\Logging\Laravel\Loggers\ModelFactoryInterface;
 use MinVWS\Logging\Laravel\Models\AuditLog;

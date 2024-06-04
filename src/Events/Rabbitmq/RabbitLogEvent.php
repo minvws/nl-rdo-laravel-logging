@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Events\Rabbitmq;
 
-use MinVWS\Logging\Laravel\Loggers\LogEventInterface;
 use DateTimeInterface;
 use Illuminate\Support\Arr;
+use MinVWS\AuditLogger\Loggers\LogEventInterface;
 use RabbitEvents\Publisher\Support\AbstractPublishableEvent;
 
 class RabbitLogEvent extends AbstractPublishableEvent

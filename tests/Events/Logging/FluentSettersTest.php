@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Tests\Events\Logging;
 
-use MinVWS\Logging\Laravel\Contracts\LoggableUser;
-use MinVWS\Logging\Laravel\Events\Logging\AdminPasswordResetLogEvent;
+use MinVWS\AuditLogger\Contracts\LoggableUser;
+use MinVWS\AuditLogger\Events\Logging\AdminPasswordResetLogEvent;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 

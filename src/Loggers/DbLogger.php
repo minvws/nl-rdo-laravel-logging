@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use JsonException;
+use MinVWS\AuditLogger\Loggers\LogEventInterface;
+use MinVWS\AuditLogger\Loggers\LoggerInterface;
 
 class DbLogger implements LoggerInterface
 {

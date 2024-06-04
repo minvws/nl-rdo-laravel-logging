@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Tests;
 
-use MinVWS\Logging\Laravel\Events\Logging\GeneralLogEvent;
+use MinVWS\AuditLogger\Events\Logging\GeneralLogEvent;
 
 class CustomLogEvent extends GeneralLogEvent
 {

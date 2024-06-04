@@ -4,13 +4,32 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Tests;
 
-use MinVWS\Logging\Laravel\Contracts\LoggableUser;
+use MinVWS\AuditLogger\Contracts\LoggableUser;
 
 class User implements LoggableUser
 {
-    public string|null $id = null;
-    public string|null $email = null;
-    public string|null $name = null;
-    public string|null $ggd_region = null;
-    public string|null $roles = null;
+    public string $id;
+    public string $email;
+    public string $name;
+    public array $roles = [];
+
+    public function getAuditId(): string
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
 }
