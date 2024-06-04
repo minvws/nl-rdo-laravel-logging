@@ -8,7 +8,7 @@ on:
 
 jobs:
     run-tests:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22.04
         strategy:
             fail-fast: false
             matrix:
@@ -27,7 +27,11 @@ jobs:
               with:
                   php-version: ${{ matrix.php }}
                   extensions: xdebug, zip
+              env:
+                  GITHUB_TOKEN: ${{ secrets.REPO_READONLY_TOKEN }}
             - name: Install dependencies
+              env:
+                  COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.REPO_READ_ONLY_TOKEN }}"}}'
               run: |
                   composer self-update
                   COMPOSER_MEMORY_LIMIT=-1 composer update --prefer-dist --no-interaction $COMPOSER_FLAGS
