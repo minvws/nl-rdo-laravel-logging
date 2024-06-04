@@ -21,7 +21,9 @@
     "php": "^8.1",
     "laravel/framework": "^10.0|^11.0",
     "nuwber/rabbitevents": "^8.0",
-    "nesbot/carbon": "^2.72 || ^3.0"
+    "nesbot/carbon": "^2.72 || ^3.0",
+    "minvws/audit-logger": "^0.3.0",
+    "ext-sodium": "*"
   },
   "require-dev": {
     "orchestra/testbench": "^8.22",
@@ -66,6 +68,12 @@
   "config": {
     "allow-plugins": {
       "composer/package-versions-deprecated": true
+    }
+  },
+  "repositories": {
+    "minvws/audit-logger": {
+      "type": "vcs",
+      "url": "git@github.com:minvws/nl-rdo-php-audit-logger.git"
     }
   }
 }
