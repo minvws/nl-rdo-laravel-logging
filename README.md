@@ -65,8 +65,8 @@ The default model can be created in pgsql with the following statement:
 CREATE TABLE public.audit_logs
 (
     email              character varying(320),
-    context            json,
-    pii_context        text,
+    request            json,
+    pii_request        text,
     created_at         timestamp(0) without time zone,
     event_code         character varying(255),
     action_code        character varying(255),
