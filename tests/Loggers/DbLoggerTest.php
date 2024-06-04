@@ -19,6 +19,8 @@ class DbLoggerTest extends TestCase
     public function testDblogger(): void
     {
         $user = new User();
+        $user->id = '12345';
+        $user->email = 'john.doe@example.org';
 
         $event = (new UserLoginLogEvent())
             ->withActor($user)
@@ -42,10 +44,10 @@ class DbLoggerTest extends TestCase
         $this->assertEquals(
             AuditLog::create([
                 'email' => null,
-                'context' => ['foo' => 'bar'],
-                'pii_context' => base64_encode(json_encode([
-                    "context" => ['bar' => 'baz'],
-                    "email" => null
+                'request' => ['foo' => 'bar'],
+                'pii_request' => base64_encode(json_encode([
+                    "request" => ['bar' => 'baz'],
+                    "email" => 'john.doe@example.org'
                 ])),
                 'created_at' => $actual['created_at'],
                 'event_code' => '091111',

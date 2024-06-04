@@ -23,6 +23,10 @@ use RabbitEvents\Publisher\Publisher;
 class RabbitLogger implements LoggerInterface
 {
     protected ?Publisher $publisher;
+
+    /**
+     * @var string[]
+     */
     private array $allowedEvents = [
         AccountChangeLogEvent::class,
         ActivateAccountLogEvent::class,
@@ -40,6 +44,9 @@ class RabbitLogger implements LoggerInterface
     protected string $prefix;
     protected bool $logPii = false;
 
+    /**
+     * @param string[] $additionalAllowedEvents
+     */
     public function __construct(
         array $additionalAllowedEvents = [],
         string $prefix = "",

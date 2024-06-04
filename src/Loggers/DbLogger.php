@@ -50,12 +50,12 @@ class DbLogger implements LoggerInterface
             $piiData = json_encode($piiData, JSON_THROW_ON_ERROR);
         }
 
-        $data['pii_context'] = base64_encode($piiData);
+        $data['pii_request'] = base64_encode($piiData);
 
-        if (isset($data['request'])) {
-            Log::warning('Deprecated: `request` key is renamed to context, please update your code.');
-            $data['context'] = $data['request'];
-            unset($data['request']);
+        if (isset($data['context'])) {
+            Log::warning('Deprecated: `context` key is renamed to `request`, please update your code.');
+            $data['request'] = $data['context'];
+            unset($data['context']);
         }
 
         // Create the model based on the FQCN or the factory

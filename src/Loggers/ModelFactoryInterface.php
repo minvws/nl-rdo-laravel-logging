@@ -9,5 +9,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 interface ModelFactoryInterface
 {
+    /**
+     * @phpstan-param array<string, mixed> $data
+     */
     public function create(string $modelFqcn, array $data): Model;
 }

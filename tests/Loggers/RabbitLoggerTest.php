@@ -33,6 +33,7 @@ class RabbitLoggerTest extends MockeryTestCase
         });
 
         $user = new User();
+        $user->name = 'John Doe';
         $user->email = "john@example.org";
         $user->id = '12345';
 
@@ -63,6 +64,7 @@ class RabbitLoggerTest extends MockeryTestCase
         });
 
         $user = new User();
+        $user->name = 'John Doe';
         $user->email = "john@example.org";
         $user->id = '12345';
 
