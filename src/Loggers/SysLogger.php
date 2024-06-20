@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Loggers;
 
-use MinVWS\Logging\Laravel\Events\Logging\GeneralLogEvent;
+use MinVWS\AuditLogger\Events\Logging\GeneralLogEvent;
+use MinVWS\AuditLogger\Loggers\LogEventInterface;
+use MinVWS\AuditLogger\Loggers\LoggerInterface;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
 
 class SysLogger implements LoggerInterface

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Tests\Loggers;
 
-use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
+use MinVWS\AuditLogger\Events\Logging\UserLoginLogEvent;
 use MinVWS\Logging\Laravel\Loggers\RabbitLogger;
 use MinVWS\Logging\Laravel\Tests\CustomLogEvent;
 use MinVWS\Logging\Laravel\Tests\User;
@@ -33,6 +33,7 @@ class RabbitLoggerTest extends MockeryTestCase
         });
 
         $user = new User();
+        $user->name = 'John Doe';
         $user->email = "john@example.org";
         $user->id = '12345';
 
@@ -63,6 +64,7 @@ class RabbitLoggerTest extends MockeryTestCase
         });
 
         $user = new User();
+        $user->name = 'John Doe';
         $user->email = "john@example.org";
         $user->id = '12345';
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Tests\Events\Logging;
 
-use MinVWS\Logging\Laravel\Events\Logging\AdminPasswordResetLogEvent;
+use MinVWS\AuditLogger\Events\Logging\AdminPasswordResetLogEvent;
 use PHPUnit\Framework\TestCase;
 
 class AdminPasswordResetLogEventTest extends TestCase

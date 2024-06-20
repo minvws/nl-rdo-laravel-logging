@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Events\Rabbitmq;
 
-use MinVWS\Logging\Laravel\Loggers\LogEventInterface;
 use DateTimeInterface;
 use Illuminate\Support\Arr;
+use MinVWS\AuditLogger\Loggers\LogEventInterface;
 use RabbitEvents\Publisher\Support\AbstractPublishableEvent;
 
+/**
+ * @phpstan-type ActorData array{
+ *     user_id: string,
+ *     name: string,
+ *     roles: string[],
+ *     ip: string|null
+ * }
+ */
 class RabbitLogEvent extends AbstractPublishableEvent
 {
     private LogEventInterface $event;
@@ -76,26 +84,25 @@ class RabbitLogEvent extends AbstractPublishableEvent
     }
 
     /**
-     * @psalm-suppress NoInterfaceProperties
+     * @phpstan-return ActorData
      */
     private function getActorUserData(): array
     {
         $user = $this->event->getActor();
 
         return [
-            'user_id' => $user?->id ?? '',
-            'uzi_number' => $user?->uzi_number ?? '',
-            'organisation_id' => $user?->organisation_id ?? '',
-            'created_by' => $user?->created_by ?? '',
-            'roles' => $user?->roles ?? [],
+            'user_id' => $user?->getAuditId() ?? '',
+            'name' => $user?->getName() ?? '',
+            'roles' => $user?->getRoles() ?? [],
             'ip' => $this->getIpAddress(),
         ];
     }
 
     private function getIpAddress(): ?string
     {
-        $ip = Arr::get($this->event->getPiiLogData(), 'context.ip_address');
-        if (! is_null($ip)) {
+        $ip = Arr::get($this->event->getPiiLogData(), 'request.ip_address');
+
+        if ($ip !== null) {
             return $ip;
         }
 
@@ -106,7 +113,7 @@ class RabbitLogEvent extends AbstractPublishableEvent
     /**
      * Here you can define custom mappings for the object field based on the event.
      * For example: DeclarationLogEvent::class => $this->specificData(),
-     * @return array
+     * @return array<array-key,mixed>
      */
     private function getObject(): array
     {
@@ -115,11 +122,14 @@ class RabbitLogEvent extends AbstractPublishableEvent
         };
     }
 
+    /**
+     * @return array<array-key,mixed>
+     */
     private function getRequestFromLogData(): array
     {
         $data = $this->logPii ? $this->event->getMergedPiiData() : $this->event->getLogData();
 
-        $context = Arr::get($data, 'context', []);
+        $context = Arr::get($data, 'request', []);
         unset($context['source']);
 
         return $context;

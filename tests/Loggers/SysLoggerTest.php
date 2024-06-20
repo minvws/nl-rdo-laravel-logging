@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MinVWS\Logging\Laravel\Tests\Loggers;
 
 use Illuminate\Log\Logger;
-use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
+use MinVWS\AuditLogger\Events\Logging\UserLoginLogEvent;
 use MinVWS\Logging\Laravel\Loggers\SysLogger;
 use MinVWS\Logging\Laravel\Tests\User;
 use Mockery;
@@ -29,8 +29,8 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             $this->assertIsArray($data);
 
             $this->assertEquals(UserLoginLogEvent::EVENT_CODE, $data['event_code']);
-            $this->assertArrayHasKey('foo', $data['context']);
-            $this->assertArrayHasKey('bar', $data['context']);
+            $this->assertArrayHasKey('foo', $data['request']);
+            $this->assertArrayHasKey('bar', $data['request']);
 
             $this->assertEquals('12345', $data['user_id']);
             $this->assertEquals('john@example.org', $data['email']);
@@ -111,8 +111,8 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             $this->assertIsArray($data);
 
             $this->assertEquals(UserLoginLogEvent::EVENT_CODE, $data['event_code']);
-            $this->assertArrayHasKey('foo', $data['context']);
-            $this->assertArrayHasKey('bar', $data['context']);
+            $this->assertArrayHasKey('foo', $data['request']);
+            $this->assertArrayHasKey('bar', $data['request']);
 
             $this->assertEquals('12345', $data['user_id']);
             $this->assertEquals('john@example.org', $data['email']);

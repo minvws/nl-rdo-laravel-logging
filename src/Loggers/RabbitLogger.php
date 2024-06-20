@@ -4,23 +4,29 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Loggers;
 
-use MinVWS\Logging\Laravel\Events\Logging\AccountChangeLogEvent;
-use MinVWS\Logging\Laravel\Events\Logging\ActivateAccountLogEvent;
-use MinVWS\Logging\Laravel\Events\Logging\AdminPasswordResetLogEvent;
-use MinVWS\Logging\Laravel\Events\Logging\DeclarationLogEvent;
-use MinVWS\Logging\Laravel\Events\Logging\RegistrationLogEvent;
-use MinVWS\Logging\Laravel\Events\Logging\ResetCredentialsLogEvent;
-use MinVWS\Logging\Laravel\Events\Logging\UserCreatedLogEvent;
-use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
-use MinVWS\Logging\Laravel\Events\Logging\UserLoginTwoFactorFailedEvent;
-use MinVWS\Logging\Laravel\Events\Logging\UserLogoutLogEvent;
-use MinVWS\Logging\Laravel\Events\Logging\VerificationCodeDisabledLogEvent;
+use MinVWS\AuditLogger\Events\Logging\AccountChangeLogEvent;
+use MinVWS\AuditLogger\Events\Logging\ActivateAccountLogEvent;
+use MinVWS\AuditLogger\Events\Logging\AdminPasswordResetLogEvent;
+use MinVWS\AuditLogger\Events\Logging\DeclarationLogEvent;
+use MinVWS\AuditLogger\Events\Logging\RegistrationLogEvent;
+use MinVWS\AuditLogger\Events\Logging\ResetCredentialsLogEvent;
+use MinVWS\AuditLogger\Events\Logging\UserCreatedLogEvent;
+use MinVWS\AuditLogger\Events\Logging\UserLoginLogEvent;
+use MinVWS\AuditLogger\Events\Logging\UserLoginTwoFactorFailedEvent;
+use MinVWS\AuditLogger\Events\Logging\UserLogoutLogEvent;
+use MinVWS\AuditLogger\Events\Logging\VerificationCodeDisabledLogEvent;
+use MinVWS\AuditLogger\Loggers\LogEventInterface;
+use MinVWS\AuditLogger\Loggers\LoggerInterface;
 use MinVWS\Logging\Laravel\Events\Rabbitmq\RabbitLogEvent;
 use RabbitEvents\Publisher\Publisher;
 
 class RabbitLogger implements LoggerInterface
 {
     protected ?Publisher $publisher;
+
+    /**
+     * @var string[]
+     */
     private array $allowedEvents = [
         AccountChangeLogEvent::class,
         ActivateAccountLogEvent::class,
@@ -38,6 +44,9 @@ class RabbitLogger implements LoggerInterface
     protected string $prefix;
     protected bool $logPii = false;
 
+    /**
+     * @param string[] $additionalAllowedEvents
+     */
     public function __construct(
         array $additionalAllowedEvents = [],
         string $prefix = "",

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel\Tests;
 
-use MinVWS\Logging\Laravel\Events\Logging\UserLoginLogEvent;
-use MinVWS\Logging\Laravel\Loggers\LoggerInterface;
+use MinVWS\AuditLogger\Events\Logging\UserLoginLogEvent;
+use MinVWS\AuditLogger\Loggers\LoggerInterface;
 use MinVWS\Logging\Laravel\LogService;
 use Mockery;
 

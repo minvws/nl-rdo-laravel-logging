@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MinVWS\Logging\Laravel;
 
-use MinVWS\Logging\Laravel\Loggers\LogEventInterface;
-use MinVWS\Logging\Laravel\Loggers\LoggerInterface;
+use MinVWS\AuditLogger\Loggers\LogEventInterface;
+use MinVWS\AuditLogger\Loggers\LoggerInterface;
 
 class LogService
 {
