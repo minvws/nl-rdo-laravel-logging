@@ -109,3 +109,12 @@ Creating a custom event is easy. You can create a new class that extends the `Mi
   }
 
 ```
+
+## Contributing
+If you encounter any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request on the GitHub repository of this package.
+
+## License
+This package is open-source and released under the European Union Public License version 1.2. You are free to use, modify, and distribute the package in accordance with the terms of the license.
+
+## Part of iCore
+This package is part of the iCore project.
