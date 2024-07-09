@@ -22,7 +22,7 @@
     "laravel/framework": "^10.0|^11.0",
     "nuwber/rabbitevents": "^8.0",
     "nesbot/carbon": "^2.72 || ^3.0",
-    "minvws/audit-logger": "^0.3.0",
+    "minvws/audit-logger": "^0.4.0",
     "ext-sodium": "*"
   },
   "require-dev": {
