@@ -1,1 +1,3 @@
-* @minvws/brba-php-codeowners
+* @minvws/icore-codeowners-logging
+# Last match takes precedence
+.github/CODEOWNERS @minvws/irealisatie-operations
