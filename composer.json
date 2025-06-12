@@ -69,11 +69,5 @@
     "allow-plugins": {
       "composer/package-versions-deprecated": true
     }
-  },
-  "repositories": {
-    "minvws/audit-logger": {
-      "type": "vcs",
-      "url": "git@github.com:minvws/nl-rdo-php-audit-logger.git"
-    }
   }
 }
