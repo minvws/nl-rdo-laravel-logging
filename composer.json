@@ -6,7 +6,7 @@
     "logging"
   ],
   "type": "library",
-  "license": "EUPL",
+  "license": "EUPL-1.2",
   "authors": [
     {
       "name": "Rick Lambrechts",
