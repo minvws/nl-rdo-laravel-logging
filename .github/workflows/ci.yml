@@ -30,7 +30,6 @@ jobs:
             extensions: xdebug, zip
       - name: Install dependencies
         run: |
-            composer self-update
             composer update --prefer-dist --no-interaction $COMPOSER_FLAGS
       - name: Static analysis with PHPStan
         run: vendor/bin/phpstan analyse --error-format=prettyJson > phpstan.json
