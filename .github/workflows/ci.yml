@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-          php: [ "8.1", "8.2" , "8.3" ]
+          php: [ "8.1", "8.2", "8.3" ]
           composer_flags: [ "", "--prefer-lowest" ]
     name: 'Build & validate: PHP ${{ matrix.php }} ${{ matrix.composer_flags}}'
     env:
@@ -28,14 +28,10 @@ jobs:
         with:
             php-version: ${{ matrix.php }}
             extensions: xdebug, zip
-        env:
-            GITHUB_TOKEN: ${{ secrets.REPO_READONLY_TOKEN }}
       - name: Install dependencies
-        env:
-            COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.REPO_READ_ONLY_TOKEN }}"}}'
         run: |
             composer self-update
-            COMPOSER_MEMORY_LIMIT=-1 composer update --prefer-dist --no-interaction $COMPOSER_FLAGS
+            composer update --prefer-dist --no-interaction $COMPOSER_FLAGS
       - name: Static analysis with PHPStan
         run: vendor/bin/phpstan analyse --error-format=prettyJson > phpstan.json
       - name: Coding style PSR12 Check
