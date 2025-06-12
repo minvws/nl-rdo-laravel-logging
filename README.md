@@ -10,7 +10,7 @@ the RDO platform. It allows to easily log events to the database, syslog or othe
 You can install the package via the composer package manager:
 
 ```bash
-$ composer require minvws/laravel-logging
+composer require minvws/laravel-logging
 ```
 
 ### Configuration
