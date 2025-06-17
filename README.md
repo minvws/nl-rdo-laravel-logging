@@ -7,23 +7,10 @@ the RDO platform. It allows to easily log events to the database, syslog or othe
 
 ### Composer
 
-Install the package through composer. Since this is currently a private package, you must
-enable the repository in your `composer.json` file:
-
-```json
-{
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git@github.com:minvws/nl-rdo-laravel-logging.git"
-    }
-  ]
-```
-
-After that, you can install the package:
+You can install the package via the composer package manager:
 
 ```bash
-$ composer require minvws/laravel-logging
+composer require minvws/laravel-logging
 ```
 
 ### Configuration
