@@ -6,7 +6,7 @@
     "logging"
   ],
   "type": "library",
-  "license": "EUPL",
+  "license": "EUPL-1.2",
   "authors": [
     {
       "name": "Rick Lambrechts",
@@ -68,12 +68,6 @@
   "config": {
     "allow-plugins": {
       "composer/package-versions-deprecated": true
-    }
-  },
-  "repositories": {
-    "minvws/audit-logger": {
-      "type": "vcs",
-      "url": "git@github.com:minvws/nl-rdo-php-audit-logger.git"
     }
   }
 }
