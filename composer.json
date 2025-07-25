@@ -19,7 +19,7 @@
   ],
   "require": {
     "php": "^8.1",
-    "laravel/framework": "^10.0|^11.0",
+    "laravel/framework": "^10.0|^11.0|^12.0",
     "nuwber/rabbitevents": "^8.0",
     "nesbot/carbon": "^2.72 || ^3.0",
     "minvws/audit-logger": "^0.4.0",
