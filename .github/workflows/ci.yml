@@ -9,7 +9,7 @@ on:
 
 jobs:
   validate:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -36,12 +36,13 @@ jobs:
       COMPOSER_MEMORY_LIMIT: -1
       PHP_VERSION: ${{ matrix.php }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install PHP
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@v2
         with:
             php-version: ${{ matrix.php }}
             extensions: xdebug, zip
+            coverage: xdebug
 
       - name: Install dependencies
         run: |
