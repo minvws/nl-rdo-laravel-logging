@@ -30,13 +30,13 @@ class RabbitLogEvent extends AbstractPublishableEvent
         $this->prefix = $prefix;
     }
 
-    #[Override]
+    #[\Override]
     public function publishEventKey(): string
     {
         return $this->prefix . '.' . $this->getEventKey();
     }
 
-    #[Override]
+    #[\Override]
     public function toPublish(): array
     {
         $logData = $this->logPii ? $this->event->getMergedPiiData() : $this->event->getLogData();

@@ -17,7 +17,7 @@ class UnicornEvent extends AbstractPublishableEvent
         $this->prefix = $prefix;
     }
 
-    #[Override]
+    #[\Override]
     public function publishEventKey(): string
     {
         return $this->prefix . '.unicorn';
@@ -33,7 +33,7 @@ class UnicornEvent extends AbstractPublishableEvent
           . "\n                 \ \n                  \ \n";
     }
 
-    #[Override]
+    #[\Override]
     public function toPublish(): array
     {
         return [

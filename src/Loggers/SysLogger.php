@@ -28,7 +28,7 @@ class SysLogger implements LoggerInterface
         $this->logger = $logger;
     }
 
-    #[Override]
+    #[\Override]
     public function log(LogEventInterface $event): void
     {
         $data = $event->getMergedPiiData();
@@ -46,7 +46,7 @@ class SysLogger implements LoggerInterface
         $this->logger->info('AuditLog: ' . base64_encode($data));
     }
 
-    #[Override]
+    #[\Override]
     public function canHandleEvent(LogEventInterface $event): bool
     {
         if (is_a($event, GeneralLogEvent::class)) {

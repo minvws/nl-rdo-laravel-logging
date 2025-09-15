@@ -35,7 +35,7 @@ class DbLogger implements LoggerInterface
         }
     }
 
-    #[Override]
+    #[\Override]
     public function log(LogEventInterface $event): void
     {
         $data = $event->getLogData();
@@ -70,7 +70,7 @@ class DbLogger implements LoggerInterface
         $model::create($data);      // @phpstan-ignore-line
     }
 
-    #[Override]
+    #[\Override]
     public function canHandleEvent(LogEventInterface $event): bool
     {
         return true;
