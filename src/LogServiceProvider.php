@@ -14,6 +14,7 @@ use Illuminate\Foundation\Application;
 
 class LogServiceProvider extends ServiceProvider
 {
+    #[Override]
     public function register()
     {
         $this->mergeConfigFrom(
