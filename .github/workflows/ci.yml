@@ -20,8 +20,11 @@ jobs:
           composer_flags: [ "", "--prefer-lowest" ]
           include:
             - laravel: 10.*
+              testbench: 8.*
             - laravel: 11.*
+              testbench: 9.*
             - laravel: 12.*
+              testbench: 10.*
           exclude:
             - laravel: 11.*
               php: 8.1
@@ -44,7 +47,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-            composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
+            composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
             composer update --${{ matrix.stability }} --prefer-dist --no-interaction $COMPOSER_FLAGS
 
       - name: Static analysis with PHPStan
