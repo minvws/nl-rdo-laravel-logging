@@ -63,6 +63,7 @@ class RabbitLogger implements LoggerInterface
         $this->publisher = $publisher;
     }
 
+    #[\Override]
     public function log(LogEventInterface $event): void
     {
         $rabbitLogEvent = new RabbitLogEvent($event, $this->prefix, $this->logPii);
@@ -74,6 +75,7 @@ class RabbitLogger implements LoggerInterface
         }
     }
 
+    #[\Override]
     public function canHandleEvent(LogEventInterface $event): bool
     {
         return in_array($event::class, $this->allowedEvents);
