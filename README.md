@@ -70,6 +70,7 @@ See [minvws/audit-logger](https://github.com/minvws/nl-rdo-php-audit-logger) for
 To use the logger, inject or resolve the `LogService` class. This class has a single method:
 
 ```php
+  
 
   $logger = app(LogService::class);
   $logger->log((new UserLoginLogEvent())
