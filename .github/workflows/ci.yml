@@ -36,7 +36,7 @@ jobs:
       COMPOSER_MEMORY_LIMIT: -1
       PHP_VERSION: ${{ matrix.php }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -81,7 +81,7 @@ jobs:
     needs: validate
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
