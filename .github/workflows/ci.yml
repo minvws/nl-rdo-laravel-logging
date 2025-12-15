@@ -67,7 +67,7 @@ jobs:
         run: vendor/bin/phpunit --log-junit=report-phpunit.xml --coverage-text --coverage-clover=coverage-phpunit.xml
 
       - name: Upload reports
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: ${{ matrix.php == '8.3' &&  matrix.laravel == '11.*' }}
         with:
           name: reports
