@@ -177,7 +177,6 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             $parts = explode(" ", $args, 2);
             $this->assertCount(2, $parts);
 
-            // Should NOT be base64 encoded, should be valid JSON directly
             $data = json_decode($parts[1], true, 512, JSON_THROW_ON_ERROR);
             $this->assertIsArray($data);
             $this->assertEquals(UserLoginLogEvent::EVENT_CODE, $data['event_code']);
