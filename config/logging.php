@@ -7,6 +7,7 @@ return [
     'dblog_secret' => env('AUDIT_DBLOG_OUR_PRIV_KEY'),
     'syslog_enabled' => env('AUDIT_SYSLOG_ENABLED', false),
     'rabbitmq_enabled' => env('AUDIT_RABBITMQ_ENABLED', false),
+    'syslog_base64_encode_enabled' => env('AUDIT_SYSLOG_BASE64_ENCODE_ENABLED', true),
 
     // The model we use to write data to the database via the dblogger
     'auditlog_model' => env('AUDIT_MODEL', MinVWS\Logging\Laravel\Models\AuditLog::class),

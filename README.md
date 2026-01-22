@@ -17,18 +17,19 @@ composer require minvws/laravel-logging
 
 The package can be configured in the `logging.php` file. The following options are available:
 
-| Option                             | Description                                      |
-|------------------------------------|--------------------------------------------------|
-| dblog_enabled                      | Enable logging to the database                   |
-| syslog_enabled                     | Enable logging to syslog                         |
-| rabbitmq_enabled                   | Enable logging to RabbitMQ                       |
-| auditlog_model                     | The model to use for logging to the database     |
-| log_full_request                   | Log the full HTTP request                        |
-| syslog_encrypt                     | Encrypt the data before sending to syslog        |
-| syslog_pubkey                      | The public key to use for encryption             |
-| syslog_secret                      | The private key to use for encryption            |
-| rabbitmq_additional_allowed_events | Additional events that can be logged to RabbitMQ |
-| rabbitmq_log_pii                   | Log PII data to RabbitMQ                         |
+| Option                             | Description                                          |
+|------------------------------------|------------------------------------------------------|
+| dblog_enabled                      | Enable logging to the database                       |
+| syslog_enabled                     | Enable logging to syslog                             |
+| rabbitmq_enabled                   | Enable logging to RabbitMQ                           |
+| syslog_base64_encode_enabled       | Enable base64 encoding for syslog, default is `true` |
+| auditlog_model                     | The model to use for logging to the database         |
+| log_full_request                   | Log the full HTTP request                            |
+| syslog_encrypt                     | Encrypt the data before sending to syslog            |
+| syslog_pubkey                      | The public key to use for encryption                 |
+| syslog_secret                      | The private key to use for encryption                |
+| rabbitmq_additional_allowed_events | Additional events that can be logged to RabbitMQ     |
+| rabbitmq_log_pii                   | Log PII data to RabbitMQ                             |
 
 There are currently three logging destinations available: the database, syslog and rabbitmq.
 
