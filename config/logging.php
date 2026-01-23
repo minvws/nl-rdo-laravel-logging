@@ -7,13 +7,15 @@ return [
     'dblog_secret' => env('AUDIT_DBLOG_OUR_PRIV_KEY'),
     'syslog_enabled' => env('AUDIT_SYSLOG_ENABLED', false),
     'rabbitmq_enabled' => env('AUDIT_RABBITMQ_ENABLED', false),
-    'syslog_base64_encode_enabled' => env('AUDIT_SYSLOG_BASE64_ENCODE_ENABLED', true),
 
     // The model we use to write data to the database via the dblogger
     'auditlog_model' => env('AUDIT_MODEL', MinVWS\Logging\Laravel\Models\AuditLog::class),
 
     // Automatically logs the complete HTTP request
     'log_full_request' => env('AUDIT_LOG_FULL_REQUEST', false),
+
+    // Enable or disable base64-encoding for syslogs
+    'syslog_base64_encode_enabled' => env('AUDIT_SYSLOG_BASE64_ENCODE_ENABLED', true),
 
     // Keys for encrypted logging
     'syslog_encrypt' => env('AUDIT_SYSLOG_THEIR_PUB_KEY') != null,
