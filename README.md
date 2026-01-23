@@ -20,11 +20,11 @@ The package can be configured in the `logging.php` file. The following options a
 | Option                             | Description                                          |
 |------------------------------------|------------------------------------------------------|
 | dblog_enabled                      | Enable logging to the database                       |
-| syslog_enabled                     | Enable logging to syslog                             |
 | rabbitmq_enabled                   | Enable logging to RabbitMQ                           |
-| syslog_base64_encode_enabled       | Enable base64 encoding for syslog, default is `true` |
 | auditlog_model                     | The model to use for logging to the database         |
 | log_full_request                   | Log the full HTTP request                            |
+| syslog_enabled                     | Enable logging to syslog                             |
+| syslog_base64_encode_enabled       | Enable base64 encoding for syslog, cannot be disabled when syslog encrypt is enabled, default is `true` |
 | syslog_encrypt                     | Encrypt the data before sending to syslog            |
 | syslog_pubkey                      | The public key to use for encryption                 |
 | syslog_secret                      | The private key to use for encryption                |
