@@ -14,6 +14,9 @@ return [
     // Automatically logs the complete HTTP request
     'log_full_request' => env('AUDIT_LOG_FULL_REQUEST', false),
 
+    // Enable or disable base64-encoding for syslogs
+    'syslog_base64_encode_enabled' => env('AUDIT_SYSLOG_BASE64_ENCODE_ENABLED', true),
+
     // Keys for encrypted logging
     'syslog_encrypt' => env('AUDIT_SYSLOG_THEIR_PUB_KEY') != null,
     'syslog_pubkey' => env('AUDIT_SYSLOG_THEIR_PUB_KEY'),

@@ -48,7 +48,7 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             ->withData(['foo' => 'bar'])
             ->withPiiData(['bar' => 'baz']);
 
-        $service = new SysLogger(false, '', '', $mock);
+        $service = new SysLogger(false, '', '', $mock, true);
         $service->log($event);
     }
 
@@ -75,7 +75,7 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             ->withData(['foo' => 'bar'])
             ->withSource('my-source');
 
-        $service = new SysLogger(false, '', '', $mock);
+        $service = new SysLogger(false, '', '', $mock, true);
         $service->log($event);
     }
 
@@ -130,7 +130,71 @@ class SysLoggerTest extends Mockery\Adapter\Phpunit\MockeryTestCase
             ->withData(['foo' => 'bar'])
             ->withPiiData(['bar' => 'baz']);
 
-        $service = new SysLogger(true, $publicKey2, $privateKey1, $mock);
+        $service = new SysLogger(true, $publicKey2, $privateKey1, $mock, true);
+        $service->log($event);
+    }
+
+    public function testSysloggerBase64EncodeEnabled(): void
+    {
+        $mock = Mockery::mock(Logger::class);
+        $mock->shouldReceive('info')->once()->withArgs(function ($args) {
+            $this->assertStringStartsWith('AuditLog: ', $args);
+
+            $parts = explode(" ", $args, 2);
+            $this->assertCount(2, $parts);
+
+            // Should be base64 encoded
+            $msg = base64_decode($parts[1], true);
+            $this->assertNotFalse($msg);
+
+            $data = json_decode($msg, true, 512, JSON_THROW_ON_ERROR);
+            $this->assertIsArray($data);
+            $this->assertEquals(UserLoginLogEvent::EVENT_CODE, $data['event_code']);
+
+            return true;
+        });
+
+        $user = new User();
+        $user->email = "john@example.org";
+        $user->id = '12345';
+
+        $event = (new UserLoginLogEvent())
+            ->withActor($user)
+            ->withData(['foo' => 'bar'])
+            ->withPiiData(['bar' => 'baz']);
+
+        // Pass true for base64EncodeEnabled
+        $service = new SysLogger(false, '', '', $mock, true);
+        $service->log($event);
+    }
+
+    public function testSysloggerBase64EncodeDisabled(): void
+    {
+        $mock = Mockery::mock(Logger::class);
+        $mock->shouldReceive('info')->once()->withArgs(function ($args) {
+            $this->assertStringStartsWith('AuditLog: ', $args);
+
+            $parts = explode(" ", $args, 2);
+            $this->assertCount(2, $parts);
+
+            $data = json_decode($parts[1], true, 512, JSON_THROW_ON_ERROR);
+            $this->assertIsArray($data);
+            $this->assertEquals(UserLoginLogEvent::EVENT_CODE, $data['event_code']);
+
+            return true;
+        });
+
+        $user = new User();
+        $user->email = "john@example.org";
+        $user->id = '12345';
+
+        $event = (new UserLoginLogEvent())
+            ->withActor($user)
+            ->withData(['foo' => 'bar'])
+            ->withPiiData(['bar' => 'baz']);
+
+        // Pass false for base64EncodeEnabled
+        $service = new SysLogger(false, '', '', $mock, false);
         $service->log($event);
     }
 }

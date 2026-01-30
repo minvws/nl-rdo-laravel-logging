@@ -17,7 +17,8 @@ class SysLogger implements LoggerInterface
         protected bool $encrypt,
         protected string $pubKey,
         protected string $privKey,
-        PsrLoggerInterface $logger
+        PsrLoggerInterface $logger,
+        protected bool $base64EncodeEnabled,
     ) {
         if ($this->encrypt && !function_exists('sodium_crypto_box')) {
             throw new \Exception(
@@ -39,11 +40,14 @@ class SysLogger implements LoggerInterface
             $encrypted = sodium_crypto_box(json_encode($data, JSON_THROW_ON_ERROR), $nonce, $pair);
 
             $data = $nonce . $encrypted;
+            $data = sodium_bin2base64($data, SODIUM_BASE64_VARIANT_ORIGINAL);
         } else {
             $data = json_encode($data, JSON_THROW_ON_ERROR);
+            if ($this->base64EncodeEnabled) {
+                $data = base64_encode($data);
+            }
         }
-
-        $this->logger->info('AuditLog: ' . base64_encode($data));
+        $this->logger->info('AuditLog: ' . $data);
     }
 
     #[\Override]

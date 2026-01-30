@@ -50,7 +50,8 @@ class LogServiceProvider extends ServiceProvider
                     config('logging.syslog_encrypt'),
                     config('logging.syslog_pubkey') ? base64_decode(config('logging.syslog_pubkey', '')) : "",
                     config('logging.syslog_secret') ? base64_decode(config('logging.syslog_secret', '')) : "",
-                    $logInterface
+                    $logInterface,
+                    config('logging.syslog_base64_encode_enabled', true),
                 ));
             }
 
