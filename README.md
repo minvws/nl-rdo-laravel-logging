@@ -3,11 +3,18 @@
 This package extends the [minvws/audit-logger](https://github.com/minvws/nl-rdo-php-audit-logger) package and provides a generic logging service for Laravel applications for
 the RDO platform. It allows to easily log events to the database, syslog or other destinations.
 
+## Requirements
+
+- **PHP:** 8.2 or higher
+- **Laravel:** 12.x or 13.x only
+
+Older versions of Laravel are not supported in recent releases of this package.
+
 ## Installation
 
 ### Composer
 
-You can install the package via the composer package manager:
+You can install the package via the composer package manager. Please ensure you are running Laravel 12 or 13 and PHP 8.2 or higher:
 
 ```bash
 composer require minvws/laravel-logging
