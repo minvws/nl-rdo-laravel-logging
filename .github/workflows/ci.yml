@@ -95,3 +95,4 @@ jobs:
         with:
           sonar-token: ${{ secrets.SONAR_TOKEN }}
           allow-run-on-dependabot: true
+          allow-run-on-fork: true
