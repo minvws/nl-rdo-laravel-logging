@@ -20,7 +20,7 @@
   "require": {
     "php": "^8.2",
     "laravel/framework": "^12.0|^13.0",
-    "nuwber/rabbitevents": "^8.0|^9.0",
+    "rabbitevents/rabbitevents": "^9.1|^10.0",
     "nesbot/carbon": "^2.72 || ^3.0",
     "minvws/audit-logger": "^0.4.0",
     "ext-sodium": "*"
@@ -48,7 +48,7 @@
     }
   },
   "suggest": {
-    "nuwber/rabbitevents": "For writing log records to rabbitMQ"
+    "rabbitevents/rabbitevents": "For writing log records to rabbitMQ"
   },
   "extra": {
     "laravel": {
